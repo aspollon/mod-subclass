@@ -7,6 +7,7 @@
       "target": "core",
       "file": "patches/core-subclass.patch",
       "notNeededWhen": "src/server/coa/AscensionSpecialization.h|AddAscensionTalentTreeProvider",
+      "required": true,
       "why": "Subclassing lets the Two-Headed Ogre and the Thin Twins of CoA Custom learn a second class. The module needs hooks the Conquest of Azeroth core does not have yet: extra talent trees and budgets, class mechanics that also run for a borrowed class, and player hooks for quest races, own looks, riding along and borrowed skills. They come from Stefan's handover branch of CoA Custom 2.0, carried onto the current core."
     }
   ]
