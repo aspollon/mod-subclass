@@ -3131,8 +3131,10 @@ public:
 
     void OnUnitDeath(Unit* unit, Unit* /*killer*/) override
     {
+        if (!unit)
+            return;
         Creature* boss = unit->ToCreature();
-        if (!boss || !(boss->IsDungeonBoss() || boss->isWorldBoss()))
+        if (!boss || !boss->GetCreatureTemplate() || !(boss->IsDungeonBoss() || boss->isWorldBoss()))
             return;
         Map* map = boss->GetMap();
         if (!map || !map->IsNonRaidDungeon())
