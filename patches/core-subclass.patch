@@ -2753,7 +2753,7 @@ index 1b5ea5bc59..3246311d99 100644
          requested[index] = appearanceId;
      }
  
-+    ApplyRequestedAppearances(player, *state, requested);
++    ApplyRequestedAppearances(player, *state, requested, true);
 +  }
 +
 +public:
@@ -2786,8 +2786,8 @@ index 1b5ea5bc59..3246311d99 100644
 +    PlayerCollectionState *state = &collection;
      for (uint32 categoryId = 1; categoryId < requested.size(); ++categoryId) {
        uint32 appearanceId = requested[categoryId];
-       if (!appearanceId)
-@@ -7826,9 +8148,12 @@ private:
+       if (!appearanceId || appearanceId == state->ActiveAppearances[categoryId])
+@@ -7826,10 +8148,12 @@ private:
  
      state->ActiveAppearances = requested;
      SaveActiveAppearances(player, *state);
@@ -2798,6 +2798,7 @@ index 1b5ea5bc59..3246311d99 100644
 +    if (resendActive)
 +      SendActiveAppearances(player, *state);
      SendApplyResult(player, "APPLY_APPEARANCES_OK");
+-    SendActiveAppearances(player, *state);
    }
  
 @@ -8430,6 +8755,8 @@ private:
@@ -8430,10 +8431,11 @@ index 488c77d21d..ffd2849ba3 100644
  
  enum PlayerHook
  {
-@@ -262,6 +263,10 @@ enum PlayerHook
+@@ -262,7 +263,11 @@ enum PlayerHook
      PLAYERHOOK_ON_GET_SHAPESHIFT_MODEL,
      PLAYERHOOK_ON_GET_NAME_QUERY_RACE,
      PLAYERHOOK_CAN_LFG_TELEPORT,
+     PLAYERHOOK_ON_HOLDS_TANK_OR_HEALER_ROLE,
 +    PLAYERHOOK_ON_GET_QUEST_RACE_MASK,      // mod-subclass (AFK core-subclass.patch)
 +    PLAYERHOOK_ON_KEEPS_OWN_LOOK,
 +    PLAYERHOOK_ON_BEFORE_BOARDED_BY,
