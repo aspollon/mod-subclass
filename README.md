@@ -1,11 +1,5 @@
 # mod-subclass
 
-> **AFK Realm edition.** This is Stefan's (stefanw1337) mod-subclass from the CoA Custom 2.0 handover
-> (`handover-ilusixn-2.0`), packed as a module AFK Realm can install on the current Conquest of Azeroth core.
-> The core hooks it needs are in `patches/core-subclass.patch`; AFK Realm applies it when it builds the server and
-> skips it once the core has the hooks itself (`notNeededWhen` in `afk-realm.json`). It needs mod-custom-races.
-> All credit for the module goes to Stefan; report gameplay bugs of the subclasses to him.
-
 Lets selected CoA characters merge two classes. A character keeps her **main class** (its Class tree, active
 specialization, basic kit and resources) and **adds** the **Class tree** and **one specialization** of a second class
 (the subclass). That gives four open trees, like WotLK's three plus the class tree. Who may do this is data, not code:
@@ -164,13 +158,3 @@ the native window's uploads (points, prerequisites, level and removal prices), a
 | 30 | Reaper | 55 = Soul, 56 = Harvest, 57 = Domination |
 | 31 | Primalist | 58 = Grovekeeper, 59 = Wildwalker, 60 = Mountain King, 95 = Geomancy |
 | 32 | Runemaster | 61 = Engravement, 62 = Glyphic, 63 = Riftblade |
-
-## AFK Realm: the core patch
-
-`patches/core-subclass.patch` brings the hooks and class-mechanics changes of the handover branch onto the current
-Conquest of Azeroth core (made against `Conquest-of-AzerothCore/azerothcore-wotlk-coa` `main` 042b38a436, Nov 3 2026,
-from `stefanw1337/azerothcore-wotlk-coa` `handover-ilusixn-2.0` c1d2238215). It applies after the patches of
-mod-azeroth-flying, mod-classic-classes, mod-custom-races and mod-playerbots-auctions, and before those of
-mod-world-journey (AFK Realm applies module patches in the order of the module folders). Left out of the handover:
-its own custom-race code (race masks, Esteria racials, `CoaCustomRacials.h`), which mod-custom-races provides on an
-AFK Realm server, and the "coa wcr" class model (mod-classic-classes does that).
