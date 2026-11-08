@@ -529,15 +529,18 @@ index 9021ffca2..d688f9833 100644
              return false;
          DamageInfo* damage = eventInfo.GetDamageInfo();
          if (!damage || !damage->GetDamage() || !eventInfo.GetActionTarget())
-@@ -403,7 +405,7 @@ public:
+@@ -404,7 +404,7 @@ public:
      void OnSpellCast(Spell* spell, Unit* caster, SpellInfo const* info, bool) override
      {
          Player* player = caster ? caster->ToPlayer() : nullptr;
--        if (!player || player->getClass() != CLASS_CHRONOMANCER || info->SpellFamilyName != 28 ||
-+        if (!player || !UsesAscensionClassMechanics(player, CLASS_CHRONOMANCER) || info->SpellFamilyName != 28 ||
-             spell->HasTriggeredCastFlag(TRIGGERED_IGNORE_GCD) || !IsAeonActivation(info->Id))
+-        if (!player || player->getClass() != CLASS_CHRONOMANCER || info->SpellFamilyName != 28)
++        if (!player || !UsesAscensionClassMechanics(player, CLASS_CHRONOMANCER) || info->SpellFamilyName != 28)
              return;
-         if (player->HasAura(SPELL_SHIMMERING_SHARD))
+         if (info->Id == SPELL_ROLL_BACK && !spell->IsTriggered())
+         {
+             player->CastSpell(player, SPELL_ROLL_BACK_COST, true);
+             return;
+         }
 diff --git a/src/server/coa/AscensionChronomancerTime.cpp b/src/server/coa/AscensionChronomancerTime.cpp
 index cdc9e4a54..c238ec40a 100644
 --- a/src/server/coa/AscensionChronomancerTime.cpp
