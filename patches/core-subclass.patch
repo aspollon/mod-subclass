@@ -8542,7 +8542,7 @@ index ae29018b..5c61a6d0 100644
          if (msg)
              SendCanTakeQuestResponse(INVALIDREASON_QUEST_FAILED_WRONG_RACE);
 diff --git a/src/server/game/Entities/Unit/Unit.cpp b/src/server/game/Entities/Unit/Unit.cpp
-index e932a18a..c940f76f 100644
+index e932a18a..09c39e41 100644
 --- a/src/server/game/Entities/Unit/Unit.cpp
 +++ b/src/server/game/Entities/Unit/Unit.cpp
 @@ -3781,6 +3781,11 @@ SpellMissInfo Unit::MeleeSpellHitResult(Unit* victim, SpellInfo const* spellInfo
@@ -8566,7 +8566,12 @@ index e932a18a..c940f76f 100644
  
      int32 rand = irand(1, 10000); // Needs to be  1 to 10000 to avoid the 1/10000 chance to miss on 100% hit rating
  
-@@ -11803,6 +11810,7 @@ void Unit::Mount(uint32 mount, uint32 VehicleId, uint32 creatureEntry)
+@@ -11799,10 +11806,11 @@ void Unit::Mount(uint32 mount, uint32 VehicleId, uint32 creatureEntry)
+         sScriptMgr->AnticheatSetUnderACKmount(player);
+ 
+         // mount as a vehicle
+-        if (VehicleId)
++        if (VehicleId && !sScriptMgr->OnPlayerKeepsOwnVehicle(player))
          {
              if (CreateVehicleKit(VehicleId, creatureEntry))
              {
@@ -8890,10 +8895,10 @@ index 89ce3a39..bbcaa002 100644
          LOG_DEBUG("maps", "MAP: Instance '{}' of map '{}' cannot have more than '{}' players. Player '{}' rejected", GetInstanceId(), GetMapName(), maxPlayers, player->GetName());
          player->SendTransferAborted(GetId(), TRANSFER_ABORT_MAX_PLAYERS);
 diff --git a/src/server/game/Scripting/ScriptDefines/PlayerScript.cpp b/src/server/game/Scripting/ScriptDefines/PlayerScript.cpp
-index 00db5e1c..2b2a9544 100644
+index 00db5e1c..201d9bff 100644
 --- a/src/server/game/Scripting/ScriptDefines/PlayerScript.cpp
 +++ b/src/server/game/Scripting/ScriptDefines/PlayerScript.cpp
-@@ -1213,6 +1213,35 @@ std::optional<uint32> ScriptMgr::OnPlayerGetGameModeMask(Player const* player)
+@@ -1213,6 +1213,44 @@ std::optional<uint32> ScriptMgr::OnPlayerGetGameModeMask(Player const* player)
      return std::nullopt;
  }
  
@@ -8926,11 +8931,20 @@ index 00db5e1c..2b2a9544 100644
 +    CALL_ENABLED_HOOKS(PlayerScript, PLAYERHOOK_ON_LOAD_FOREIGN_SKILL, script->OnPlayerLoadForeignSkill(player, skill, entry));
 +}
 +
++bool ScriptMgr::OnPlayerKeepsOwnVehicle(Player const* player)
++{
++    for (auto const& script : ScriptRegistry<PlayerScript>::EnabledHooks[PLAYERHOOK_ON_KEEPS_OWN_VEHICLE])
++        if (script->OnPlayerKeepsOwnVehicle(player))
++            return true;
++
++    return false;
++}
++
  PlayerScript::PlayerScript(char const* name, std::vector<uint16> enabledHooks)
      : ScriptObject(name, PLAYERHOOK_END)
  {
 diff --git a/src/server/game/Scripting/ScriptDefines/PlayerScript.h b/src/server/game/Scripting/ScriptDefines/PlayerScript.h
-index bdf36df6..e4db29f3 100644
+index bdf36df6..875fa6fb 100644
 --- a/src/server/game/Scripting/ScriptDefines/PlayerScript.h
 +++ b/src/server/game/Scripting/ScriptDefines/PlayerScript.h
 @@ -30,6 +30,7 @@
@@ -8941,7 +8955,7 @@ index bdf36df6..e4db29f3 100644
  
  enum PlayerHook
  {
-@@ -270,6 +271,10 @@ enum PlayerHook
+@@ -270,6 +271,11 @@ enum PlayerHook
      PLAYERHOOK_ON_AFTER_GUILD_CHAT,
      PLAYERHOOK_ON_AFTER_CHANNEL_CHAT,
      PLAYERHOOK_ON_AFTER_SEND_MAIL,
@@ -8949,10 +8963,11 @@ index bdf36df6..e4db29f3 100644
 +    PLAYERHOOK_ON_KEEPS_OWN_LOOK,
 +    PLAYERHOOK_ON_BEFORE_BOARDED_BY,
 +    PLAYERHOOK_ON_LOAD_FOREIGN_SKILL,
++    PLAYERHOOK_ON_KEEPS_OWN_VEHICLE,
      PLAYERHOOK_END
  };
  
-@@ -1184,6 +1189,19 @@ public:
+@@ -1184,6 +1190,22 @@ public:
       * @return true when the script resolved the mask
       */
      [[nodiscard]] virtual bool OnPlayerGetGameModeMask(Player const* /*player*/, uint32& /*mask*/) { return false; }
@@ -8969,6 +8984,9 @@ index bdf36df6..e4db29f3 100644
 +    // A loading character keeps a skill its own race and class do not list when a script supplies the entry
 +    // that ranges it; leaving entry null deletes the skill.
 +    virtual void OnPlayerLoadForeignSkill(Player const* /*player*/, uint16 /*skill*/, SkillRaceClassInfoEntry const*& /*entry*/) { }
++
++    // A body that already carries its own vehicle kit (Two-Players) mounts without a mount kit replacing it.
++    [[nodiscard]] virtual bool OnPlayerKeepsOwnVehicle(Player const* /*player*/) { return false; }
  };
  
  #endif
@@ -9011,7 +9029,7 @@ index 601868fb..a890edae 100644
  
      virtual void OnAuraRemove(Unit* /*unit*/, AuraApplication* /*aurApp*/, AuraRemoveMode /*mode*/) { }
 diff --git a/src/server/game/Scripting/ScriptMgr.h b/src/server/game/Scripting/ScriptMgr.h
-index b189a762..89c4b5e1 100644
+index b189a762..425e6661 100644
 --- a/src/server/game/Scripting/ScriptMgr.h
 +++ b/src/server/game/Scripting/ScriptMgr.h
 @@ -85,6 +85,7 @@ class SpellScriptLoader;
@@ -9022,7 +9040,7 @@ index b189a762..89c4b5e1 100644
  struct Mail;
  struct Condition;
  struct ConditionSourceInfo;
-@@ -543,6 +544,10 @@ public: /* PlayerScript */
+@@ -543,6 +544,11 @@ public: /* PlayerScript */
      void OnPlayerCoAPrestigeSaved(Player* player);
      void OnPlayerMasterLootItem(Player* player, Item* item, uint32 count, ObjectGuid lootguid);
      std::optional<uint32> OnPlayerGetGameModeMask(Player const* player);
@@ -9030,10 +9048,11 @@ index b189a762..89c4b5e1 100644
 +    bool OnPlayerKeepsOwnLook(Player const* player, uint32 spellId);
 +    void OnPlayerBeforeBoardedBy(Player* player, Unit* clicker);
 +    void OnPlayerLoadForeignSkill(Player const* player, uint16 skill, SkillRaceClassInfoEntry const*& entry);
++    bool OnPlayerKeepsOwnVehicle(Player const* player);
  
      // Anti cheat
      void AnticheatSetCanFlybyServer(Player* player, bool apply);
-@@ -638,6 +643,7 @@ public: /* UnitScript */
+@@ -638,6 +644,7 @@ public: /* UnitScript */
      uint32 DealDamage(Unit* AttackerUnit, Unit* pVictim, uint32 damage, DamageEffectType damagetype,
                        std::optional<uint32>* scriptHealthLeechDamage = nullptr);
      void OnBeforeRollMeleeOutcomeAgainst(Unit const* attacker, Unit const* victim, WeaponAttackType attType, int32& attackerMaxSkillValueForLevel, int32& victimMaxSkillValueForLevel, int32& attackerWeaponSkill, int32& victimDefenseSkill, int32& crit_chance, int32& miss_chance, int32& dodge_chance, int32& parry_chance, int32& block_chance);
