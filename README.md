@@ -1,5 +1,10 @@
 # mod-subclass
 
+> **AFK Realm edition.** Stefan's (stefanw1337) mod-subclass as shipped with CoA Custom 2.0.2, packed as a module AFK
+> Realm builds on the current Conquest of Azeroth core. The core hooks it needs (talent trees, Two-Players groups,
+> shared slots, vehicles, spell miss chance ...) are in `patches/core-subclass.patch`; AFK Realm applies it when it builds
+> the server. The Two-Players racials of the core's pending SQL are in `data/sql/db-world` here. It needs mod-custom-races.
+
 Lets selected CoA characters merge two classes. A character keeps her **main class** (its Class tree, active
 specialization, basic kit and resources) and **adds** the **Class tree** and **one specialization** of a second class
 (the subclass). That gives four open trees, like WotLK's three plus the class tree. Who may do this is data, not code:
@@ -11,6 +16,12 @@ The default row allows two-headed **Ogres**, which in this CoA build means femal
 The CoA core must have the talent hooks `AddAscensionTalentTreeProvider` (extra trees) and
 `AddAscensionTalentBudgetProvider` in `src/server/coa/AscensionSpecialization.h`. Without them the module does not
 compile.
+
+Optional: [SQUID Playerbots](https://github.com/Zyth45/mod-playerbots/tree/coa), the Conquest of Azeroth fork of
+[mod-playerbots](https://github.com/mod-playerbots/mod-playerbots) by Zyth45 (Squid), built on the Playerbot AI of
+ike3 and the mod-playerbots authors (GPL-2.0). With it in `modules/`, a bot plays a Two-Players head whose player is
+offline (`Subclass.TwoPlayers.Bots`). The module calls SQUID's own bot login and strategies and contains none of its
+code; without it, a Ranged Head waits in place for the Melee Head.
 
 ## Install
 
