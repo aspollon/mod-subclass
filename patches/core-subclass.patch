@@ -9141,7 +9141,7 @@ diff --git a/src/server/game/Spells/Spell.h b/src/server/game/Spells/Spell.h
 index 1a5b42db7..f23ffe23e 100644
 --- a/src/server/game/Spells/Spell.h
 +++ b/src/server/game/Spells/Spell.h
-@@ -594,7 +594,10 @@ public:
+@@ -594,7 +594,11 @@ public:
      void ReSetTimer() { m_timer = m_casttime > 0 ? m_casttime : 0; }
      int32 GetCastTimeRemaining() { return m_timer;}
      bool IsNextMeleeSwingSpell() const;
@@ -9151,6 +9151,7 @@ index 1a5b42db7..f23ffe23e 100644
 +        return HasTriggeredCastFlag(TRIGGERED_FULL_MASK) && !HasTriggeredCastFlag(TRIGGERED_COUNTS_AS_CAST);
 +    };
      bool HasTriggeredCastFlag(TriggerCastFlags flag) const { return _triggeredCastFlags & flag; };
++    void AddTriggeredCastFlag(TriggerCastFlags flag) { _triggeredCastFlags = TriggerCastFlags(_triggeredCastFlags | flag); }
      [[nodiscard]] bool IsProcDisabled() const { return HasTriggeredCastFlag(TRIGGERED_DISALLOW_PROC_EVENTS); }
      bool IsChannelActive() const { return m_caster->GetUInt32Value(UNIT_CHANNEL_SPELL) != 0; }
 diff --git a/src/server/game/Spells/SpellDefines.h b/src/server/game/Spells/SpellDefines.h
