@@ -1270,6 +1270,31 @@ index f10e5aea9..4ef219f8a 100644
          spell->GetSpellInfo()->Id != SPELL_PRIMALIST_CAVE_IN)
          return;
  
+diff --git a/src/server/coa/AscensionClassServiceBridge.h b/src/server/coa/AscensionClassServiceBridge.h
+new file mode 100644
+index 0000000000..feb41231f21f7d2f0348f95bc5d40f53ea452e64
+--- /dev/null
++++ b/src/server/coa/AscensionClassServiceBridge.h
+@@ -0,0 +1,19 @@
++#pragma once
++
++#include "Define.h"
++#include "AscensionCoATalentData.h"
++#include <string>
++
++class Player;
++
++// Narrow bridge into AscensionClassService, which is private to AscensionCompat.cpp.
++// mod-subclass switches specializations and spends paid Ascension talent points
++// through the same budget-checked, mutually-exclusive-group-aware path a player uses.
++namespace AscensionClassServiceBridge
++{
++    // Mirrors AscensionClassService::SwitchSpecialization(player, specializationId).
++    bool SwitchSpecialization(Player* player, uint32 specializationId);
++
++    // Mirrors AscensionClassService::SetTalentRank(player, entry, rank, error).
++    bool SetTalentRank(Player* player, AscensionCompatData::CoATalentEntry const& entry, uint32 rank, std::string& error);
++}
 diff --git a/src/server/coa/AscensionCoATalentData.cpp b/src/server/coa/AscensionCoATalentData.cpp
 index 03ab9b659..f8c27bf8c 100644
 --- a/src/server/coa/AscensionCoATalentData.cpp
