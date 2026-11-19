@@ -8446,6 +8446,20 @@ diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entiti
 index edcf67c27..d81ee9b8e 100644
 --- a/src/server/game/Entities/Player/Player.cpp
 +++ b/src/server/game/Entities/Player/Player.cpp
+@@ -3530,7 +3530,13 @@ bool Player::_addSpell(uint32 spellId, uint8 addSpecMask, bool temporary, bool l
+         if (skill_max_value < new_skill_max_value)
+             skill_max_value = new_skill_max_value;
+ 
++        // SetSkill can learn this spell again through learnSkillRewardedSpells, before it is stored below. Stop that re-entry.
++        static thread_local std::set<std::pair<uint64, uint32>> learningSkillSpells;
++        std::pair<uint64, uint32> const key(GetGUID().GetRawValue(), spellId);
++        if (!learningSkillSpells.insert(key).second)
++            return false;
+         SetSkill(spellLearnSkill->skill, spellLearnSkill->step, skill_value, skill_max_value);
++        learningSkillSpells.erase(key);
+     }
+     else
+     {
 @@ -10627,7 +10627,8 @@ void Player::ApplySpellMod(uint32 spellId, SpellModOp op, T& basevalue, Spell* s
      // The module snapshots readiness before prepare calculates cost/cast time.
      // Keep the modifiers on that cast, including delayed summon effects, without
