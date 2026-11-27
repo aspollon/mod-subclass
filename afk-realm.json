@@ -1,6 +1,8 @@
 {
   "about": "Read by AFK Realm (https://github.com/aspollon/AFK-Realm) when it builds the server. Without AFK Realm, apply patches/core-subclass.patch to a Conquest of Azeroth core yourself: see README.md.",
-  "requires": ["mod-custom-races"],
+  "requires": [
+    "mod-custom-races"
+  ],
   "patches": [
     {
       "name": "Talent hooks and class mechanics for a second class (CoA Custom subclassing)",
@@ -9,6 +11,14 @@
       "notNeededWhen": "src/server/coa/AscensionSpecialization.h|AddAscensionTalentTreeProvider",
       "required": true,
       "why": "Subclassing lets the Two-Headed Ogre and the Thin Twins of CoA Custom learn a second class. The module needs hooks the Conquest of Azeroth core does not have yet: extra talent trees and budgets, class mechanics that also run for a borrowed class, and player hooks for quest races, own looks, riding along and borrowed skills. They come from Stefan's handover branch of CoA Custom 2.0, carried onto the current core."
+    },
+    {
+      "name": "A player back in her own model keeps her gender (CoA Custom subclassing)",
+      "target": "core",
+      "file": "patches/core-native-model-gender.patch",
+      "notNeededWhen": "src/server/game/Entities/Unit/Unit.cpp|modelId == GetNativeDisplayId()",
+      "required": false,
+      "why": "Custom race models carry no gender of their own, so leaving a form or the Twins' looks turned a female character male. ilusixn's fix from CoA Custom's subclass snapshot of 23 November."
     }
   ]
 }
