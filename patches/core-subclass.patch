@@ -29,7 +29,7 @@ index 5294d74e4..c7a138e64 100644
  
      SpellInfo const* info = spell->GetSpellInfo();
 diff --git a/src/server/coa/AscensionBarbarianCompletion.cpp b/src/server/coa/AscensionBarbarianCompletion.cpp
-index 53b97efcb..d80de87dc 100644
+index 9fb1cbda7..930e3944e 100644
 --- a/src/server/coa/AscensionBarbarianCompletion.cpp
 +++ b/src/server/coa/AscensionBarbarianCompletion.cpp
 @@ -1,6 +1,7 @@
@@ -58,7 +58,7 @@ index 53b97efcb..d80de87dc 100644
              return;
  
          uint32 const displayId = player->getRace() == RACE_DWARF ? 260901 : 173031;
-@@ -246,7 +247,7 @@ public:
+@@ -268,7 +269,7 @@ public:
      void ModifySpellEffectBaseValue(Unit const* caster, SpellInfo const* info, uint8 index, float& value) override
      {
          Player const* player = caster ? caster->ToPlayer() : nullptr;
@@ -404,16 +404,16 @@ index 1d43a7a02..a88662be4 100644
      }
  
 diff --git a/src/server/coa/AscensionChronomancerMovement.cpp b/src/server/coa/AscensionChronomancerMovement.cpp
-index 2b291ac8a..f9635cb6b 100644
+index ae5b70781..274e6b20a 100644
 --- a/src/server/coa/AscensionChronomancerMovement.cpp
 +++ b/src/server/coa/AscensionChronomancerMovement.cpp
 @@ -1,4 +1,5 @@
  /* Copyright (C) 2016+ AzerothCore, GNU AGPL v3. */
 +#include "AscensionSpecialization.h"
+ #include "CellImpl.h"
  #include "Creature.h"
- #include "Player.h"
- #include "ScriptMgr.h"
-@@ -42,7 +43,7 @@ struct npc_ascension_infinite_clone : ScriptedAI
+ #include "GridNotifiers.h"
+@@ -50,7 +51,7 @@ struct npc_ascension_infinite_clone : ScriptedAI
      void IsSummonedBy(WorldObject* summoner) override
      {
          Player* player = summoner ? summoner->ToPlayer() : nullptr;
@@ -422,7 +422,7 @@ index 2b291ac8a..f9635cb6b 100644
              return;
          owner = player->GetGUID();
          origin = player->GetPosition();
-@@ -91,7 +92,8 @@ class spell_ascension_rewind : public SpellScript
+@@ -99,7 +100,8 @@ class spell_ascension_rewind : public SpellScript
      SpellCastResult CheckClone()
      {
          Player* player = GetCaster()->ToPlayer();
@@ -433,7 +433,7 @@ index 2b291ac8a..f9635cb6b 100644
      }
  
 diff --git a/src/server/coa/AscensionChronomancerRipple.cpp b/src/server/coa/AscensionChronomancerRipple.cpp
-index 855738588..0d6740f59 100644
+index eba659107..98ba5bf73 100644
 --- a/src/server/coa/AscensionChronomancerRipple.cpp
 +++ b/src/server/coa/AscensionChronomancerRipple.cpp
 @@ -1,4 +1,5 @@
@@ -463,7 +463,7 @@ index 855738588..0d6740f59 100644
              caster->GetMap() == target->GetMap() && caster->InSamePhase(target) && caster->IsValidAttackTarget(target))
              caster->CastSpell(target, EndOfTimeRelease, true);
 diff --git a/src/server/coa/AscensionChronomancerSecondary.cpp b/src/server/coa/AscensionChronomancerSecondary.cpp
-index 9a1997ac2..b1bbef74c 100644
+index d33e29189..c76a738d9 100644
 --- a/src/server/coa/AscensionChronomancerSecondary.cpp
 +++ b/src/server/coa/AscensionChronomancerSecondary.cpp
 @@ -1,4 +1,5 @@
@@ -472,7 +472,7 @@ index 9a1997ac2..b1bbef74c 100644
  #include "ObjectAccessor.h"
  #include "Player.h"
  #include "ScriptMgr.h"
-@@ -59,7 +60,7 @@ constexpr uint32 AnomalySpikeFamilyFlag0 = 0x08000000;
+@@ -60,7 +61,7 @@ constexpr uint32 AnomalySpikeFamilyFlag0 = 0x08000000;
  Player* SecondaryChronomancer(Unit* unit)
  {
      Player* player = unit ? unit->ToPlayer() : nullptr;
@@ -481,7 +481,7 @@ index 9a1997ac2..b1bbef74c 100644
          ? player : nullptr;
  }
  
-@@ -351,7 +352,7 @@ class aura_ascension_echo_duration : public AuraScript
+@@ -363,7 +364,7 @@ class aura_ascension_echo_duration : public AuraScript
      bool Load() override
      {
          return GetCaster() == GetUnitOwner() && GetCaster() && GetCaster()->IsPlayer() &&
@@ -491,7 +491,7 @@ index 9a1997ac2..b1bbef74c 100644
  
      void Sync(AuraEffect const*, AuraEffectHandleModes)
 diff --git a/src/server/coa/AscensionChronomancerTalents.cpp b/src/server/coa/AscensionChronomancerTalents.cpp
-index 383f16df8..b145ca05a 100644
+index a0f4d82bb..61a94a334 100644
 --- a/src/server/coa/AscensionChronomancerTalents.cpp
 +++ b/src/server/coa/AscensionChronomancerTalents.cpp
 @@ -1,5 +1,6 @@
@@ -520,7 +520,7 @@ index 383f16df8..b145ca05a 100644
              return false;
          DamageInfo* damage = eventInfo.GetDamageInfo();
          if (!damage || !damage->GetDamage() || !eventInfo.GetActionTarget())
-@@ -436,7 +438,7 @@ public:
+@@ -439,7 +441,7 @@ public:
      void OnSpellCast(Spell* spell, Unit* caster, SpellInfo const* info, bool) override
      {
          Player* player = caster ? caster->ToPlayer() : nullptr;
@@ -530,7 +530,7 @@ index 383f16df8..b145ca05a 100644
          if (info->Id == SPELL_ROLL_BACK && !spell->IsTriggered())
          {
 diff --git a/src/server/coa/AscensionChronomancerTime.cpp b/src/server/coa/AscensionChronomancerTime.cpp
-index 4b452faf1..9da9d6267 100644
+index bb2f6bbcb..22995fa73 100644
 --- a/src/server/coa/AscensionChronomancerTime.cpp
 +++ b/src/server/coa/AscensionChronomancerTime.cpp
 @@ -1,4 +1,5 @@
@@ -549,7 +549,7 @@ index 4b452faf1..9da9d6267 100644
  
  bool IsRank(uint32 spell, uint32 root)
 diff --git a/src/server/coa/AscensionClassMechanics.cpp b/src/server/coa/AscensionClassMechanics.cpp
-index 63a5d4f8f..1566d4ba8 100644
+index 48a27a9c6..f6a09a5c2 100644
 --- a/src/server/coa/AscensionClassMechanics.cpp
 +++ b/src/server/coa/AscensionClassMechanics.cpp
 @@ -7,6 +7,7 @@
@@ -578,7 +578,7 @@ index 63a5d4f8f..1566d4ba8 100644
          return;
  
      AuraEffect* penalty = player->GetAuraEffect(SPELL_RANGER_ELUDE_SPEED_PENALTY, EFFECT_2);
-@@ -1246,7 +1247,7 @@ void ApplyAscensionClassMechanics(SpellInfo* spellInfo)
+@@ -1255,7 +1256,7 @@ void ApplyAscensionClassMechanics(SpellInfo* spellInfo)
  
  void SynchronizeAscensionClassMechanics(Player* player)
  {
@@ -587,7 +587,7 @@ index 63a5d4f8f..1566d4ba8 100644
          return;
  
      std::vector<uint32> obsolete;
-@@ -1259,7 +1260,7 @@ void SynchronizeAscensionClassMechanics(Player* player)
+@@ -1268,7 +1269,7 @@ void SynchronizeAscensionClassMechanics(Player* player)
      for (uint32 spellId : obsolete)
          player->removeSpell(spellId, SPEC_MASK_ALL, false);
  
@@ -596,7 +596,7 @@ index 63a5d4f8f..1566d4ba8 100644
      {
          if (player->HasAura(SPELL_GUARDIAN_TOWER_FORMATION))
              ApplyGuardianFormation(player, SPELL_GUARDIAN_TOWER_FORMATION);
-@@ -1270,7 +1271,7 @@ void SynchronizeAscensionClassMechanics(Player* player)
+@@ -1279,7 +1280,7 @@ void SynchronizeAscensionClassMechanics(Player* player)
          else
              RemoveGuardianFormationHelpers(player);
      }
@@ -605,7 +605,7 @@ index 63a5d4f8f..1566d4ba8 100644
      {
          SynchronizeRangerQuiver(player);
          if (player->HasAura(SPELL_RANGER_ELUDE))
-@@ -1297,7 +1298,7 @@ void PrepareAscensionClassMechanicsCast(Spell* spell)
+@@ -1306,7 +1307,7 @@ void PrepareAscensionClassMechanicsCast(Spell* spell)
          return;
  
      Player* player = spell->GetCaster()->ToPlayer();
@@ -614,7 +614,7 @@ index 63a5d4f8f..1566d4ba8 100644
          !IsGuardianCenturionStrike(spell->GetSpellInfo()->Id))
          return;
  
-@@ -1321,6 +1322,66 @@ void HandleAscensionClassMechanicsCalculatedTarget(Spell* spell, Player* player,
+@@ -1330,6 +1331,66 @@ void HandleAscensionClassMechanicsCalculatedTarget(Spell* spell, Player* player,
          targetInfo);
  }
  
@@ -681,7 +681,7 @@ index 63a5d4f8f..1566d4ba8 100644
  void HandleAscensionClassMechanicsHit(Spell* spell, Player* player,
      Unit* target, std::uint8_t missInfo, std::uint32_t damage,
      std::uint32_t, bool critical)
-@@ -1339,7 +1400,8 @@ void HandleAscensionClassMechanicsHit(Spell* spell, Player* player,
+@@ -1348,7 +1409,8 @@ void HandleAscensionClassMechanicsHit(Spell* spell, Player* player,
          return;
  
      uint32 spellId = spell->GetSpellInfo()->Id;
@@ -691,7 +691,7 @@ index 63a5d4f8f..1566d4ba8 100644
      {
          HandleRangerBountyHunterHit(player, target, spellId, damage);
          if (spellId == SPELL_RANGER_QUICK_WITTED_STAB && spell->IsTriggered())
-@@ -1349,73 +1411,13 @@ void HandleAscensionClassMechanicsHit(Spell* spell, Player* player,
+@@ -1358,73 +1420,13 @@ void HandleAscensionClassMechanicsHit(Spell* spell, Player* player,
      if (spell->IsTriggered())
          return;
  
@@ -769,7 +769,7 @@ index 63a5d4f8f..1566d4ba8 100644
          return;
  
      HandleRangerQuiverHit(player, target, spell->GetSpellInfo(), damage);
-@@ -1425,54 +1427,8 @@ void HandleAscensionClassMechanicsHit(Spell* spell, Player* player,
+@@ -1434,54 +1436,8 @@ void HandleAscensionClassMechanicsHit(Spell* spell, Player* player,
          AddRangerAdvantage(player, 1);
  }
  
@@ -825,7 +825,7 @@ index 63a5d4f8f..1566d4ba8 100644
      uint32 firstRank = sSpellMgr->GetFirstSpellInChain(info->Id);
      if (firstRank == 800316)
      {
-@@ -1554,9 +1510,56 @@ void HandleAscensionClassMechanicsCast(Spell* spell)
+@@ -1563,9 +1519,56 @@ void HandleAscensionClassMechanicsCast(Spell* spell)
          RemoveGuardianCenturionWeaponEffects(player);
  }
  
@@ -883,7 +883,7 @@ index 63a5d4f8f..1566d4ba8 100644
          return;
  
      if (player->HasAura(SPELL_GUARDIAN_RAISE_SHIELD))
-@@ -1576,12 +1579,12 @@ void HandleAscensionClassMechanicsAuraApply(Player* player, std::uint32_t spellI
+@@ -1585,12 +1588,12 @@ void HandleAscensionClassMechanicsAuraApply(Player* player, std::uint32_t spellI
      if (!player)
          return;
  
@@ -898,7 +898,7 @@ index 63a5d4f8f..1566d4ba8 100644
      {
          ApplyGuardianFormation(player, spellId);
          if (spellId == SPELL_GUARDIAN_TOWER_FORMATION)
-@@ -1589,7 +1592,7 @@ void HandleAscensionClassMechanicsAuraApply(Player* player, std::uint32_t spellI
+@@ -1598,7 +1601,7 @@ void HandleAscensionClassMechanicsAuraApply(Player* player, std::uint32_t spellI
          return;
      }
  
@@ -907,7 +907,7 @@ index 63a5d4f8f..1566d4ba8 100644
          spellId == SPELL_GUARDIAN_FOOTMANS_CALLING)
      {
          if (player->HasAura(SPELL_GUARDIAN_TOWER_FORMATION))
-@@ -1599,7 +1602,7 @@ void HandleAscensionClassMechanicsAuraApply(Player* player, std::uint32_t spellI
+@@ -1608,7 +1611,7 @@ void HandleAscensionClassMechanicsAuraApply(Player* player, std::uint32_t spellI
          return;
      }
  
@@ -916,7 +916,7 @@ index 63a5d4f8f..1566d4ba8 100644
      {
          player->CastSpell(player, SPELL_RANGER_ELUDE_EFFECTS, true);
          player->CastSpell(player, SPELL_RANGER_ELUDE_SPEED_PENALTY, true);
-@@ -1608,7 +1611,7 @@ void HandleAscensionClassMechanicsAuraApply(Player* player, std::uint32_t spellI
+@@ -1617,7 +1620,7 @@ void HandleAscensionClassMechanicsAuraApply(Player* player, std::uint32_t spellI
                  true);
      }
  
@@ -925,7 +925,7 @@ index 63a5d4f8f..1566d4ba8 100644
          std::find(RANGER_QUIVERS.begin(), RANGER_QUIVERS.end(), spellId) !=
              RANGER_QUIVERS.end())
      {
-@@ -1624,13 +1627,13 @@ void HandleAscensionClassMechanicsAuraRemove(Player* player, std::uint32_t spell
+@@ -1633,13 +1636,13 @@ void HandleAscensionClassMechanicsAuraRemove(Player* player, std::uint32_t spell
          return;
  
      auto formation = std::find(GUARDIAN_FORMATIONS.begin(), GUARDIAN_FORMATIONS.end(), spellId);
@@ -941,7 +941,7 @@ index 63a5d4f8f..1566d4ba8 100644
          spellId == SPELL_GUARDIAN_FOOTMANS_CALLING)
      {
          player->RemoveAurasDueToSpell(
-@@ -1638,16 +1641,16 @@ void HandleAscensionClassMechanicsAuraRemove(Player* player, std::uint32_t spell
+@@ -1647,16 +1650,16 @@ void HandleAscensionClassMechanicsAuraRemove(Player* player, std::uint32_t spell
          return;
      }
  
@@ -1662,7 +1662,7 @@ index 1f32ce543..a20af6869 100644
  
  bool ParseKnownEntriesUpload(std::uint8_t const* data, std::size_t size, std::vector<KnownEntry>& known);
 diff --git a/src/server/coa/AscensionCompat.cpp b/src/server/coa/AscensionCompat.cpp
-index a6b2599d0..646633da4 100644
+index fd6048a6d..7e3bc378d 100644
 --- a/src/server/coa/AscensionCompat.cpp
 +++ b/src/server/coa/AscensionCompat.cpp
 @@ -4,6 +4,7 @@
@@ -1706,7 +1706,7 @@ index a6b2599d0..646633da4 100644
  namespace {
  constexpr uint16 CMSG_ANTICHEAT_ALERT = 0x051F;
  constexpr uint16 CMSG_CUSTOM_ASCENSION_POINT_SPEND_REQUEST = 0x0523;
-@@ -504,6 +510,8 @@ enum class AscensionCompatConfig {
+@@ -505,6 +511,8 @@ enum class AscensionCompatConfig {
    ALLOW_LEARNED_SPELL_DELIVERY,
    LEARN_OWNED_COMPANIONS,
    MAX_RIDING_FROM_START,
@@ -1715,7 +1715,7 @@ index a6b2599d0..646633da4 100644
    QUEST_LEVEL_SCALING,
    AUTO_PROGRESSION,
    GAME_MODE_MASK,
-@@ -524,9 +532,12 @@ public:
+@@ -525,9 +533,12 @@ public:
    AscensionCompatConfigData()
        : ConfigValueCache(AscensionCompatConfig::NUM_CONFIGS) {}
  
@@ -1728,7 +1728,7 @@ index a6b2599d0..646633da4 100644
      SetConfigValue<bool>(AscensionCompatConfig::LOG_CONSUMED_PACKETS,
                           "CoA.LogConsumedPackets", true);
      SetConfigValue<uint32>(AscensionCompatConfig::FIRST_EXTENSION_OPCODE,
-@@ -558,6 +569,10 @@ public:
+@@ -559,6 +570,10 @@ public:
                           "CoA.LearnOwnedCompanions", true);
      SetConfigValue<bool>(AscensionCompatConfig::MAX_RIDING_FROM_START,
                           "CoA.MaxRidingFromStart", true);
@@ -1739,7 +1739,7 @@ index a6b2599d0..646633da4 100644
      SetConfigValue<bool>(AscensionCompatConfig::QUEST_LEVEL_SCALING,
                           "CoA.QuestLevelScaling", true);
      SetConfigValue<uint32>(AscensionCompatConfig::COLLECTIONS_FOR_BOTS,
-@@ -571,6 +586,8 @@ public:
+@@ -572,6 +587,8 @@ public:
      SetConfigValue<std::string>(AscensionCompatConfig::CLIENT_DBC_DIRECTORY,
                                  "CoA.ClientDbcDirectory", "");
    }
@@ -1748,7 +1748,7 @@ index a6b2599d0..646633da4 100644
  };
  
  AscensionCompatConfigData ascensionCompatConfig;
-@@ -739,6 +756,22 @@ bool IsAscensionCustomClass(Player const *player) {
+@@ -740,6 +757,22 @@ bool IsAscensionCustomClass(Player const *player) {
    return playerClass >= CLASS_BARBARIAN && playerClass <= CLASS_SPIRIT_MAGE;
  }
  
@@ -1771,7 +1771,7 @@ index a6b2599d0..646633da4 100644
  bool ReceivesClientRequests(Player const *player) {
    return !player->GetSession()->IsBot();
  }
-@@ -899,6 +932,54 @@ std::string SpecializationSwitchRefusal(Player* player, uint32 activeSpecializat
+@@ -900,6 +933,54 @@ std::string SpecializationSwitchRefusal(Player* player, uint32 activeSpecializat
      return {};
  }
  
@@ -1826,7 +1826,7 @@ index a6b2599d0..646633da4 100644
  struct UpdateEntriesRefusal
  {
      char const* Result = "CA_UPDATE_ENTRIES_UNKNOWN";
-@@ -926,27 +1007,34 @@ public:
+@@ -927,27 +1008,34 @@ public:
  
    uint32 SynchronizeProgression(Player *player, bool explicitRequest = false) {
      if (!IsAscensionCustomClass(player))
@@ -1866,7 +1866,7 @@ index a6b2599d0..646633da4 100644
      {
        if (!CanGrantAscensionRacialSpell(player, spellId))
          return false;
-@@ -958,9 +1046,9 @@ public:
+@@ -959,9 +1047,9 @@ public:
        bool const unresolved = std::any_of(AscensionCompatData::UnresolvedTrainerSpells.begin(), AscensionCompatData::UnresolvedTrainerSpells.end(),
            [player, spellId](auto const& entry) { return entry.ClassId == player->getClass() && entry.SpellId == spellId; });
        bool const automatic = player->GetLevel() > 1 && std::any_of(AscensionCompatData::CoATalentEntries.begin(),
@@ -1878,7 +1878,7 @@ index a6b2599d0..646633da4 100644
                     std::find(entry.SpellIds.begin(), entry.SpellIds.end(), spellId) != entry.SpellIds.end();
            });
        bool const taughtByKnownSpell = std::any_of(SpellsTaughtByKnownSpells.begin(), SpellsTaughtByKnownSpells.end(),
-@@ -988,7 +1076,7 @@ public:
+@@ -989,7 +1077,7 @@ public:
      };
      reconcile(AscensionCompatData::LegacyGeneratedClassSpells);
      reconcile(AscensionCompatData::ClassSpells);
@@ -1887,7 +1887,7 @@ index a6b2599d0..646633da4 100644
        for (FelswornRiftGrant const& rift : FelswornHordeCapitalRifts)
          if (rift.RequiredLevel > player->GetLevel() && player->HasSpell(rift.SpellId))
          {
-@@ -1048,7 +1136,7 @@ public:
+@@ -1049,7 +1137,7 @@ public:
        player->learnSpell(progressionSpell.SpellId, false);
        ++learned;
      }
@@ -1896,7 +1896,7 @@ index a6b2599d0..646633da4 100644
        for (FelswornRiftGrant const& rift : FelswornHordeCapitalRifts)
          if (automaticProgression && rift.RequiredLevel <= player->GetLevel() &&
              CanGrantAscensionRacialSpell(player, rift.SpellId) &&
-@@ -1314,6 +1402,7 @@ public:
+@@ -1315,6 +1403,7 @@ public:
  
      uint32 learned = 0;
      uint32 removed = 0;
@@ -1904,7 +1904,7 @@ index a6b2599d0..646633da4 100644
      for (AscensionCompatData::ProficiencyDefinition const &definition :
           AscensionCompatData::ProficiencyDefinitions) {
        bool const allowed = isAllowed(definition.SpellId);
-@@ -1348,6 +1437,8 @@ public:
+@@ -1349,6 +1438,8 @@ public:
        {
          player->removeSpell(definition.SpellId, SPEC_MASK_ALL, false);
          ++removed;
@@ -1913,7 +1913,7 @@ index a6b2599d0..646633da4 100644
        }
        if (player->HasSkill(definition.SkillId))
          player->SetSkill(definition.SkillId, 0, 0, 0);
-@@ -1370,9 +1461,9 @@ public:
+@@ -1371,9 +1462,9 @@ public:
      {
        LOG_INFO("coa",
                 "Synchronized proficiencies for {} (class {}, level {}): "
@@ -1925,7 +1925,7 @@ index a6b2599d0..646633da4 100644
      }
    }
  
-@@ -1620,11 +1711,12 @@ public:
+@@ -1621,11 +1712,12 @@ public:
    }
  
    void OnPlayerLogin(Player *player) {
@@ -1939,7 +1939,7 @@ index a6b2599d0..646633da4 100644
  
      uint32 const specializationId = player->GetPlayerSetting(ASCENSION_ACTIVE_SPEC_SETTING, 0).value;
      if (specializationId)
-@@ -1637,9 +1729,14 @@ public:
+@@ -1638,9 +1730,14 @@ public:
          stored && stored->size() > 1 && (*stored)[0].value && (*stored)[1].value != player->getClass())
        ClearSlots(player);
      player->learnSpell(AscensionWildcard::SPECIALIZATION_SWAP_SPELLS[0]);
@@ -1957,7 +1957,7 @@ index a6b2599d0..646633da4 100644
      QueueCharacterAdvancementState(player);
  
      CharacterDatabasePreparedStatement* actionsStmt =
-@@ -1805,10 +1902,11 @@ public:
+@@ -1806,10 +1903,11 @@ public:
      {
          if (!SharedPaidEntries().count(entry.EntryId))
              return false;
@@ -1970,7 +1970,7 @@ index a6b2599d0..646633da4 100644
                  continue;
              uint32 const rank = KnownRank(player, *other);
              for (uint32 index = 0; index < rank; ++index)
-@@ -1825,8 +1923,9 @@ public:
+@@ -1826,8 +1924,9 @@ public:
      if (AscensionFreepick::HasFreepickBuild(player))
        return AscensionFreepick::KnownEntries(player);
      std::vector<AscensionCoATalentState::KnownEntry> known;
@@ -1981,7 +1981,7 @@ index a6b2599d0..646633da4 100644
              if (uint32 const rank = KnownRank(player, entry))
                  known.push_back({entry.EntryId, rank});
      return known;
-@@ -1855,7 +1954,7 @@ public:
+@@ -1856,7 +1955,7 @@ public:
      WorldPacket packet(SMSG_CHARACTER_ADVANCEMENT_ACTIVE_SPEC, sizeof(uint32) * 2);
      bool const wildcard = AscensionWildcard::IsWildcardHero(player);
      packet << (wildcard ? AscensionWildcard::ActiveSpec(player) : ActiveSlot(player))
@@ -1990,7 +1990,7 @@ index a6b2599d0..646633da4 100644
          AscensionWildcard::SPECIALIZATION_COUNT : 1);
      player->GetSession()->SendPacket(&packet);
  
-@@ -1943,7 +2042,8 @@ public:
+@@ -1944,7 +2043,8 @@ public:
    uint32 SendKnownTalentEntries(Player* player)
    {
      SendResetCredits(player);
@@ -2000,7 +2000,7 @@ index a6b2599d0..646633da4 100644
      std::vector<uint8> const body = AscensionCoATalentState::KnownEntriesPayload(known);
      WorldPacket packet(SMSG_CHARACTER_ADVANCEMENT_KNOWN_ENTRIES, body.size());
      packet.append(body.data(), body.size());
-@@ -1955,20 +2055,22 @@ public:
+@@ -1956,20 +2056,22 @@ public:
                       std::string& error, bool checkBudget = true)
    {
      uint32 const entryId = entry.EntryId;
@@ -2026,7 +2026,7 @@ index a6b2599d0..646633da4 100644
      {
        error = Acore::StringFormat(
            "Talent entry {} belongs to specialization {}, but your active specialization is {}.",
-@@ -1998,7 +2100,8 @@ public:
+@@ -1999,7 +2101,8 @@ public:
  
      if (automaticallyGranted)
      {
@@ -2036,7 +2036,7 @@ index a6b2599d0..646633da4 100644
        SynchronizeProgression(player);
        if (!grantable)
        {
-@@ -2060,7 +2163,7 @@ public:
+@@ -2061,7 +2164,7 @@ public:
      if (rank > 0 && freeChoiceGroup)
      {
        for (auto const& other : AscensionCompatData::CoATalentEntries)
@@ -2045,7 +2045,7 @@ index a6b2599d0..646633da4 100644
              GetSelectableFreeGroup(other.EntryId) == freeChoiceGroup)
            for (uint32 spellId : other.SpellIds)
              if (spellId && player->HasSpell(spellId))
-@@ -2087,10 +2190,11 @@ public:
+@@ -2088,10 +2191,11 @@ public:
  
    char const* PurgeTalents(Player* player)
    {
@@ -2059,7 +2059,7 @@ index a6b2599d0..646633da4 100644
                   KnownRank(player, entry);
          });
      if (!anyPaid)
-@@ -2116,9 +2220,10 @@ public:
+@@ -2117,9 +2221,10 @@ public:
    {
      StorePurchasedRanks(player);
      uint32 removed = 0;
@@ -2071,7 +2071,7 @@ index a6b2599d0..646633da4 100644
          continue;
        for (uint32 spellId : entry.SpellIds)
          if (spellId && player->HasSpell(spellId))
-@@ -2136,9 +2241,27 @@ public:
+@@ -2137,9 +2242,27 @@ public:
  
    bool TalentBudget(Player const* player, uint32& classBudget, uint32& specializationBudget, std::string& error)
    {
@@ -2100,7 +2100,7 @@ index a6b2599d0..646633da4 100644
  
      LOG_ERROR("coa", "No CoA talent budget row for class {} at level {} ({})",
                uint32(player->getClass()), uint32(player->GetLevel()), player->GetName());
-@@ -2165,10 +2288,115 @@ public:
+@@ -2166,10 +2289,115 @@ public:
      return rank;
    }
  
@@ -2217,7 +2217,7 @@ index a6b2599d0..646633da4 100644
      if (uploaded.Mixed)
      {
        refusal = { "CA_UPDATE_ENTRIES_BAD_ENTRY", "", 0, 0, "The uploaded build mixes specializations." };
-@@ -2179,13 +2407,14 @@ public:
+@@ -2180,13 +2408,14 @@ public:
      uint32 const targetSpec = requestedSpec.value_or(uploaded.SpecId ? uploaded.SpecId : activeSpecialization);
      bool const switching = targetSpec != activeSpecialization;
      bool const callerPlacesBar = requestedSpec.has_value();
@@ -2233,7 +2233,7 @@ index a6b2599d0..646633da4 100644
        {
          refusal = { "CA_UPDATE_ENTRIES_BAD_ENTRY", "CA_LEARN_WRONG_CLASS", item.EntryId, item.Rank,
                      Acore::StringFormat("Talent entry {} does not belong to your custom class.", item.EntryId) };
-@@ -2221,8 +2450,14 @@ public:
+@@ -2222,8 +2451,14 @@ public:
            return false;
          }
        }
@@ -2249,7 +2249,7 @@ index a6b2599d0..646633da4 100644
          refusal = { "CA_UPDATE_ENTRIES_BAD_ENTRY", "CA_LEARN_WRONG_CLASS", item.EntryId, item.Rank,
                      "The uploaded build includes an entry of another specialization." };
          return false;
-@@ -2241,11 +2476,12 @@ public:
+@@ -2242,11 +2477,12 @@ public:
      std::vector<AscensionCoATalentState::KnownEntry> priced;
      for (AscensionCompatData::CoATalentEntry const& entry : AscensionCompatData::CoATalentEntries)
      {
@@ -2265,7 +2265,7 @@ index a6b2599d0..646633da4 100644
        if (rank)
          priced.push_back({ entry.EntryId, rank });
      }
-@@ -2258,7 +2494,7 @@ public:
+@@ -2259,7 +2495,7 @@ public:
          if (rank && GetSelectableFreeGroup(entryId))
              proposed.Entries.push_back({ entryId, rank });
      std::vector<AscensionCoATalentState::KnownEntry> const proposedKnown =
@@ -2274,7 +2274,7 @@ index a6b2599d0..646633da4 100644
      for (AscensionCoATalentState::KnownEntry const& item : upload)
      {
          AscensionCompatData::CoATalentEntry const* entry = FindTalentEntry(item.EntryId);
-@@ -2283,7 +2519,7 @@ public:
+@@ -2284,7 +2520,7 @@ public:
      for (AscensionCoATalentState::KnownEntry const& item : priced)
      {
          AscensionCompatData::CoATalentEntry const* entry = FindTalentEntry(item.EntryId);
@@ -2283,7 +2283,7 @@ index a6b2599d0..646633da4 100644
              continue;
          for (uint32 requiredId : entry->RequiredEntryIds)
              if (requiredId && std::none_of(proposedKnown.begin(), proposedKnown.end(),
-@@ -2315,7 +2551,7 @@ public:
+@@ -2316,7 +2552,7 @@ public:
        refusal.Result = "CA_UPDATE_ENTRIES_UNKNOWN";
        return false;
      }
@@ -2292,7 +2292,7 @@ index a6b2599d0..646633da4 100644
      if (spent.AE > classBudget || spent.TE > specializationBudget)
      {
        refusal = { "CA_UPDATE_ENTRIES_NOT_TRAVERSIBLE",
-@@ -2374,7 +2610,7 @@ public:
+@@ -2375,7 +2611,7 @@ public:
      std::vector<std::pair<AscensionCompatData::CoATalentEntry const*, uint32>> changes;
      for (AscensionCompatData::CoATalentEntry const& entry : AscensionCompatData::CoATalentEntries)
      {
@@ -2301,7 +2301,7 @@ index a6b2599d0..646633da4 100644
            (!entry.AECost && !entry.TECost && !GetSelectableFreeGroup(entry.EntryId)))
          continue;
        auto itr = wanted.find(entry.EntryId);
-@@ -2440,7 +2676,7 @@ public:
+@@ -2441,7 +2677,7 @@ public:
        _pendingTalentRequests.erase(itr);
      }
  
@@ -2310,7 +2310,7 @@ index a6b2599d0..646633da4 100644
          !AscensionFreepick::HasFreepickBuild(player))
        return;
      for (TalentRequest const& request : requests)
-@@ -2516,6 +2752,11 @@ public:
+@@ -2517,6 +2753,11 @@ public:
      return itr == _activeSpecializations.end() ? 0 : itr->second;
    }
  
@@ -2322,7 +2322,7 @@ index a6b2599d0..646633da4 100644
      static uint32 ActiveSlot(Player const* player)
      {
          auto const* values = player->FindPlayerSettings("core.ascension_slot.active");
-@@ -2538,9 +2779,10 @@ public:
+@@ -2539,9 +2780,10 @@ public:
    static std::vector<uint32> LivePicks(Player const* player, uint32 specializationId)
    {
      std::vector<uint32> picks;
@@ -2334,7 +2334,7 @@ index a6b2599d0..646633da4 100644
            (!entry.AECost && !entry.TECost && !GetSelectableFreeGroup(entry.EntryId)))
          continue;
        if (uint32 const rank = KnownRank(player, entry))
-@@ -2738,7 +2980,7 @@ public:
+@@ -2739,7 +2981,7 @@ public:
        {
          AscensionCompatData::CoATalentEntry const* entry = FindTalentEntry(pick / 10);
          uint32 const rank = pick % 10;
@@ -2343,7 +2343,7 @@ index a6b2599d0..646633da4 100644
              rank > entry->SpellCount)
            continue;
          if (KnownRank(player, *entry) >= rank)
-@@ -2770,17 +3012,11 @@ public:
+@@ -2771,17 +3013,11 @@ public:
    bool SwitchSpecialization(Player* player, uint32 specializationId, std::string* refusal = nullptr,
                              bool restoreStoredBuild = true, bool rememberBar = true)
    {
@@ -2364,7 +2364,7 @@ index a6b2599d0..646633da4 100644
      if (!validSpecialization && (specializationId || restoreStoredBuild))
        return false;
  
-@@ -2833,9 +3069,10 @@ public:
+@@ -2834,9 +3070,10 @@ public:
          RememberBarButtons(player, previousSpecialization, talentSpells);
        barSpellsBefore = AscensionRemovedSpellActionBars::Capture(player);
      }
@@ -2376,7 +2376,7 @@ index a6b2599d0..646633da4 100644
          continue;
  
        for (uint32 spellId : entry.SpellIds) {
-@@ -2908,7 +3145,7 @@ public:
+@@ -2909,7 +3146,7 @@ public:
  
      void SaveSlot(Player* player)
      {
@@ -2385,7 +2385,7 @@ index a6b2599d0..646633da4 100644
              StoreSlot(player, ActiveSlot(player), LiveSlot(player, GetActiveSpecialization(player)));
      }
  
-@@ -2951,7 +3188,7 @@ public:
+@@ -2952,7 +3189,7 @@ public:
  
      bool SwitchSlot(Player* player, uint32 index, std::string& error)
      {
@@ -2394,7 +2394,7 @@ index a6b2599d0..646633da4 100644
              index >= AscensionWildcard::SPECIALIZATION_COUNT ||
              !player->HasSpell(AscensionWildcard::SPECIALIZATION_SWAP_SPELLS[index]))
          {
-@@ -2984,6 +3221,16 @@ public:
+@@ -2985,6 +3222,16 @@ public:
  
          uint32 const previousIndex = ActiveSlot(player);
          auto const previous = LiveSlot(player, GetActiveSpecialization(player));
@@ -2411,7 +2411,7 @@ index a6b2599d0..646633da4 100644
          UpdateEntriesRefusal refusal;
          if (!ApplyKnownEntriesUpload(player, target.Entries, refusal, target.SpecId))
          {
-@@ -3051,11 +3298,16 @@ public:
+@@ -3052,11 +3299,16 @@ public:
          return 0;
      }
  
@@ -2430,7 +2430,7 @@ index a6b2599d0..646633da4 100644
      }
  
      static AscensionCoATalentState::HasSpell CarriedSpells(Player const* player)
-@@ -3090,7 +3342,8 @@ public:
+@@ -3091,7 +3343,8 @@ public:
          AscensionCoATalentState::SpecializationSlot slot;
          if (!AscensionCoATalentState::ParseSpecializationSlot(values, slot) || slot.ClassId != player->getClass())
              return {};
@@ -2440,7 +2440,7 @@ index a6b2599d0..646633da4 100644
      }
  
      static void ReconcileRunemasterFists(Player* player, uint32 specializationId)
-@@ -3112,11 +3365,11 @@ public:
+@@ -3113,11 +3366,11 @@ public:
          if (fists == entries.end() || fists->EntryId != 4062 ||
              fists->ClassId != CLASS_SPIRIT_MAGE || fists->SpecId != 61 ||
              fists->SpellCount != 1 || fists->AECost || fists->TECost || fists->RequiredLevel != 10 ||
@@ -2454,7 +2454,7 @@ index a6b2599d0..646633da4 100644
              return;
  
          auto const& dependencies = AscensionCompatData::CoAAutomaticDependencies;
-@@ -3140,12 +3393,13 @@ private:
+@@ -3141,12 +3394,13 @@ private:
              return 0;
          uint32 learned = 0;
          bool changed = true;
@@ -2469,7 +2469,7 @@ index a6b2599d0..646633da4 100644
                      continue;
  
                  uint32 spellId = entry.SpellIds[entry.SpellCount - 1];
-@@ -3355,13 +3609,13 @@ public:
+@@ -3356,13 +3610,13 @@ public:
      void OnPlayerLogin(Player* player) const
      {
          ForgetStaticDecay(player->GetGUID());
@@ -2485,7 +2485,7 @@ index a6b2599d0..646633da4 100644
          {
              DecayStatic(player, diff);
              SynchronizeThresholdResources(player);
-@@ -3384,7 +3638,7 @@ public:
+@@ -3385,7 +3639,7 @@ public:
              return true;
  
          if (spell->GetSpellInfo()->Id != SPELL_REAPER_GENERATE_SOUL ||
@@ -2494,7 +2494,7 @@ index a6b2599d0..646633da4 100644
              return true;
  
          return GetAuraStacks(player, SPELL_REAPER_SOUL_FRAGMENT) >=
-@@ -3402,7 +3656,7 @@ public:
+@@ -3403,7 +3657,7 @@ public:
  
          SpellInfo const* spellInfo = spell->GetSpellInfo();
          uint32 spellId = spellInfo->Id;
@@ -2503,7 +2503,7 @@ index a6b2599d0..646633da4 100644
              spellInfo->SpellFamilyName == uint32(CLASS_RANGER) + 6 &&
              spellInfo->CasterAuraSpell == 804329 && !player->HasAura(804329))
          {
-@@ -3410,7 +3664,7 @@ public:
+@@ -3411,7 +3665,7 @@ public:
              return;
          }
  
@@ -2512,7 +2512,7 @@ index a6b2599d0..646633da4 100644
          {
              Unit* target = spell->m_targets.GetUnitTarget();
              if (target && target->HasAura(SPELL_REAPER_SCYTHE_RUSH_MARKER,
-@@ -3440,13 +3694,13 @@ public:
+@@ -3441,13 +3695,13 @@ public:
              return;
  
          Player* player = spell->GetCaster()->ToPlayer();
@@ -2528,7 +2528,7 @@ index a6b2599d0..646633da4 100644
              spellInfo->PowerType == POWER_HEALTH && spell->GetPowerCost() > 0 &&
              player->HasAura(SPELL_BLOODMAGE_THIRST_PASSIVE))
              ModifyAuraStacks(player, SPELL_BLOODMAGE_THIRST, 1);
-@@ -3536,7 +3790,7 @@ public:
+@@ -3537,7 +3791,7 @@ public:
              return;
  
          Player* player = spell->GetCaster()->ToPlayer();
@@ -2537,7 +2537,7 @@ index a6b2599d0..646633da4 100644
              return;
  
          bool successful = missInfo == SPELL_MISS_NONE;
-@@ -3691,7 +3945,7 @@ public:
+@@ -3692,7 +3946,7 @@ public:
              return;
  
          Player* player = attacker->ToPlayer();
@@ -2546,7 +2546,7 @@ index a6b2599d0..646633da4 100644
              player->IsFriendlyTo(target))
              return;
  
-@@ -3734,14 +3988,14 @@ public:
+@@ -3735,14 +3989,14 @@ public:
  
      void OnBlock(Player* player) const
      {
@@ -2563,7 +2563,7 @@ index a6b2599d0..646633da4 100644
                  rule.Event != AscensionCompatData::ResourceGainEvent::Block ||
                  (rule.RequiredAuraSpellId &&
                      !player->HasAura(rule.RequiredAuraSpellId)) ||
-@@ -3765,7 +4019,7 @@ public:
+@@ -3766,7 +4020,7 @@ public:
          handler->PSendSysMessage("Ascension resource status for class {}:",
              uint32(player->getClass()));
  
@@ -2572,7 +2572,7 @@ index a6b2599d0..646633da4 100644
          {
              handler->PSendSysMessage("Runic Power: {}/{}",
                  player->GetPower(POWER_RUNIC_POWER) / 10,
-@@ -3776,7 +4030,7 @@ public:
+@@ -3777,7 +4031,7 @@ public:
          for (AscensionCompatData::ResourceDisplay const& resource :
               AscensionCompatData::ResourceDisplays)
          {
@@ -2581,7 +2581,7 @@ index a6b2599d0..646633da4 100644
                  continue;
  
              uint32 maximum = resource.DisplayMaximum;
-@@ -3796,7 +4050,7 @@ public:
+@@ -3797,7 +4051,7 @@ public:
          for (AscensionCompatData::ResourceThresholdRule const& threshold :
               AscensionCompatData::ResourceThresholdRules)
          {
@@ -2590,7 +2590,7 @@ index a6b2599d0..646633da4 100644
                  continue;
  
              handler->PSendSysMessage(
-@@ -3807,7 +4061,7 @@ public:
+@@ -3808,7 +4062,7 @@ public:
                                                                 "inactive");
          }
  
@@ -2599,7 +2599,7 @@ index a6b2599d0..646633da4 100644
              handler->SendSysMessage(
                  "This class has no separate Ascension resource widget.");
      }
-@@ -3835,26 +4089,25 @@ private:
+@@ -3836,26 +4090,25 @@ private:
      static bool Matches(Player const* player, uint32 spellId, uint8 classId,
          uint32 firstSpellId, uint32 lastSpellId)
      {
@@ -2633,7 +2633,7 @@ index a6b2599d0..646633da4 100644
      }
  
      static uint8 GetAuraStacks(Unit const* unit, uint32 spellId)
-@@ -3957,7 +4210,7 @@ private:
+@@ -3958,7 +4211,7 @@ private:
  
      static void ConsumeReaperSouls(Player* player, Spell* spell)
      {
@@ -2642,7 +2642,7 @@ index a6b2599d0..646633da4 100644
              return;
  
          SpellInfo const* spellInfo = spell->GetSpellInfo();
-@@ -4005,7 +4258,7 @@ private:
+@@ -4006,7 +4259,7 @@ private:
      {
          ObjectGuid const guid = player->GetGUID();
          uint8 const stacks = GetAuraStacks(player, SPELL_STORMBRINGER_STATIC);
@@ -2651,7 +2651,7 @@ index a6b2599d0..646633da4 100644
          {
              ForgetStaticDecay(guid);
              return;
-@@ -4047,7 +4300,7 @@ private:
+@@ -4048,7 +4301,7 @@ private:
          for (AscensionCompatData::ResourceThresholdRule const& rule :
               AscensionCompatData::ResourceThresholdRules)
          {
@@ -2660,7 +2660,7 @@ index a6b2599d0..646633da4 100644
                  continue;
  
              bool meetsThreshold =
-@@ -4063,7 +4316,7 @@ private:
+@@ -4064,7 +4317,7 @@ private:
              }
          }
  
@@ -2669,7 +2669,7 @@ index a6b2599d0..646633da4 100644
          {
              while (GetAuraStacks(player, SPELL_PYROMANCER_HEAT) >=
                     PYROMANCER_HEAT_PER_EMBER)
-@@ -4074,7 +4327,7 @@ private:
+@@ -4075,7 +4328,7 @@ private:
              }
          }
  
@@ -2678,7 +2678,7 @@ index a6b2599d0..646633da4 100644
              GetAuraStacks(player, SPELL_REAPER_SOUL_FRAGMENT) >=
                  REAPER_SOUL_FRAGMENT_COST)
          {
-@@ -4087,7 +4340,7 @@ private:
+@@ -4088,7 +4341,7 @@ private:
              }
          }
  
@@ -2687,7 +2687,7 @@ index a6b2599d0..646633da4 100644
              GetAuraStacks(player, SPELL_REAPER_REAPED_SOUL) >= 3 &&
              !player->HasAura(SPELL_REAPER_SOUL_INFUSION))
          {
-@@ -6168,6 +6421,37 @@ private:
+@@ -6191,6 +6444,37 @@ private:
  
  class AscensionCollectionService {
  public:
@@ -2725,7 +2725,7 @@ index a6b2599d0..646633da4 100644
      static bool IsCosmeticCategory(uint32 category)
      {
          return category >= 56 && category <= 58;
-@@ -6232,6 +6516,8 @@ public:
+@@ -6255,6 +6539,8 @@ public:
  
    bool LoadClientData() {
      _appearances.clear();
@@ -2734,8 +2734,8 @@ index a6b2599d0..646633da4 100644
      _itemAppearances.clear();
      _itemSetItems.clear();
      _vanityItems.clear();
-@@ -6271,6 +6557,11 @@ public:
-         continue;
+@@ -6305,6 +6591,11 @@ public:
+       }
  
        uint32 displayId = record.GetUInt32(3);
 +      if (IsClassPetCategory(record.GetUInt32(5)))
@@ -2746,7 +2746,7 @@ index a6b2599d0..646633da4 100644
        _appearances[appearanceId] =
            AppearanceInfo{displayId, record.GetUInt32(5), record.GetUInt32(6),
                           record.GetUInt32(7), displayId};
-@@ -6474,12 +6765,21 @@ public:
+@@ -6515,12 +6806,21 @@ public:
      if (!state)
        state = LoadCollectionState(player);
  
@@ -2768,7 +2768,7 @@ index a6b2599d0..646633da4 100644
  
      if (ascensionCompatConfig.GetConfigValue<bool>(
              AscensionCompatConfig::AUTO_COLLECT_APPEARANCES))
-@@ -7107,7 +7407,7 @@ public:
+@@ -7161,7 +7461,7 @@ public:
  
      uint32 GetShadowhoundDisplay(Player* player)
      {
@@ -2777,7 +2777,7 @@ index a6b2599d0..646633da4 100644
              !ascensionCompatConfig.GetConfigValue<bool>(AscensionCompatConfig::ENABLED))
              return 0;
  
-@@ -7348,12 +7648,14 @@ public:
+@@ -7402,12 +7702,14 @@ public:
        if (IsWithheldVanityItem(itemId))
          continue;
  
@@ -2794,7 +2794,7 @@ index a6b2599d0..646633da4 100644
          CharacterDatabasePreparedStatement *stmt =
              CharacterDatabase.GetPreparedStatement(CHAR_INS_ACCOUNT_VANITY_COLLECTION);
          stmt->SetData(0, state->AccountId);
-@@ -7407,7 +7709,8 @@ public:
+@@ -7461,7 +7763,8 @@ public:
        if (!_vanityItems.contains(itemId))
          continue;
  
@@ -2804,7 +2804,7 @@ index a6b2599d0..646633da4 100644
          CharacterDatabasePreparedStatement *stmt =
              CharacterDatabase.GetPreparedStatement(CHAR_INS_ACCOUNT_VANITY_COLLECTION);
          stmt->SetData(0, state->AccountId);
-@@ -8246,6 +8549,37 @@ private:
+@@ -8313,6 +8616,37 @@ private:
          requested[index] = appearanceId;
      }
  
@@ -2842,7 +2842,7 @@ index a6b2599d0..646633da4 100644
      for (uint32 categoryId = 1; categoryId < requested.size(); ++categoryId) {
        uint32 appearanceId = requested[categoryId];
        if (!appearanceId || appearanceId == state->ActiveAppearances[categoryId])
-@@ -8337,11 +8671,13 @@ private:
+@@ -8404,11 +8738,13 @@ private:
  
      state->ActiveAppearances = requested;
      SaveActiveAppearances(player, *state);
@@ -2857,7 +2857,7 @@ index a6b2599d0..646633da4 100644
    }
  
    static bool RealmAllows(AppearanceInfo const& appearance)
-@@ -8973,6 +9309,8 @@ private:
+@@ -9040,6 +9376,8 @@ private:
  
    bool _clientDataLoaded = false;
    std::unordered_map<uint32, IncarnationCategory> _incarnationCategories;
@@ -2866,7 +2866,7 @@ index a6b2599d0..646633da4 100644
    std::map<uint32, CosmeticPetCategory> _petCategories;
    std::unordered_map<uint32, uint32> _petTokens;
    std::unordered_map<uint32, AppearanceInfo> _appearances;
-@@ -10089,7 +10427,7 @@ public:
+@@ -10157,7 +10495,7 @@ public:
        uint8& err, uint16& dest) override
    {
        if (!ascensionCompatConfig.GetConfigValue<bool>(AscensionCompatConfig::ENABLED) ||
@@ -2875,7 +2875,7 @@ index a6b2599d0..646633da4 100644
            return true;
  
        uint8 result = player->CanEquipItem(slot, dest, item, false, false);
-@@ -10175,7 +10513,7 @@ public:
+@@ -10243,7 +10581,7 @@ public:
  
    void OnPlayerLearnSpell(Player *player, uint32 spellId) override {
      if (ascensionCompatConfig.GetConfigValue<bool>(AscensionCompatConfig::ENABLED) &&
@@ -2884,7 +2884,7 @@ index a6b2599d0..646633da4 100644
          std::find(AscensionWildcard::SPECIALIZATION_SWAP_SPELLS.begin(),
                    AscensionWildcard::SPECIALIZATION_SWAP_SPELLS.end(), spellId) !=
              AscensionWildcard::SPECIALIZATION_SWAP_SPELLS.end())
-@@ -11781,24 +12119,40 @@ bool AscensionCosmeticPetTokens::AvailableOnRealm(uint32 itemId)
+@@ -11849,24 +12187,40 @@ bool AscensionCosmeticPetTokens::AvailableOnRealm(uint32 itemId)
      return AscensionCollectionService::Instance().CosmeticPetTokenAvailableHere(itemId);
  }
  
@@ -2931,7 +2931,7 @@ index a6b2599d0..646633da4 100644
          return 0;
  
      if (uint32 const active = AscensionClassService::Instance().GetActiveSpecialization(player))
-@@ -11836,6 +12190,83 @@ std::string AscensionSpecializationSwitchRefusal(Player* player, uint32 activeSp
+@@ -11904,6 +12258,83 @@ std::string AscensionSpecializationSwitchRefusal(Player* player, uint32 activeSp
      return SpecializationSwitchRefusal(player, activeSpecializationId, requestedSpecializationId);
  }
  
@@ -3015,7 +3015,7 @@ index a6b2599d0..646633da4 100644
  void ClearAscensionSpecializationSlots(Player* player)
  {
      if (player)
-@@ -11848,9 +12279,10 @@ uint32 ForgetAscensionClassTalents(Player* player)
+@@ -11916,9 +12347,10 @@ uint32 ForgetAscensionClassTalents(Player* player)
          return 0;
  
      uint32 removed = 0;
@@ -3027,7 +3027,7 @@ index a6b2599d0..646633da4 100644
              continue;
  
          for (uint32 spellId : entry.SpellIds)
-@@ -11894,7 +12326,7 @@ bool RestoreAscensionSpecializationSignature(Player* player)
+@@ -11962,7 +12394,7 @@ bool RestoreAscensionSpecializationSignature(Player* player)
      auto const specialization = std::find_if(AscensionCompatData::CoASpecializations.begin(),
          AscensionCompatData::CoASpecializations.end(), [player, active](auto const& row)
          {
@@ -3036,7 +3036,7 @@ index a6b2599d0..646633da4 100644
          });
      if (specialization == AscensionCompatData::CoASpecializations.end())
          return false;
-@@ -11921,12 +12353,84 @@ bool RestoreAscensionSpecializationSignature(Player* player)
+@@ -11989,12 +12421,84 @@ bool RestoreAscensionSpecializationSignature(Player* player)
      return true;
  }
  
@@ -3121,7 +3121,7 @@ index a6b2599d0..646633da4 100644
  uint32 SynchronizeAscensionTalentReplacements(Player* player)
  {
      return player ? AscensionClassService::Instance().SynchronizeTalentReplacements(player) : 0;
-@@ -11935,15 +12439,18 @@ uint32 SynchronizeAscensionTalentReplacements(Player* player)
+@@ -12003,15 +12507,18 @@ uint32 SynchronizeAscensionTalentReplacements(Player* player)
  bool SetAscensionTalentRank(Player* player, uint32 entryId, uint32 rank)
  {
      AscensionCompatData::CoATalentEntry const* entry = FindAscensionTalentEntry(entryId);
@@ -3143,7 +3143,7 @@ index a6b2599d0..646633da4 100644
          return false;
  
      uint32 const selectedSpellId = rank > 0 ? entry->SpellIds[rank - 1] : 0;
-@@ -11952,7 +12459,7 @@ bool SetAscensionTalentRank(Player* player, uint32 entryId, uint32 rank)
+@@ -12020,7 +12527,7 @@ bool SetAscensionTalentRank(Player* player, uint32 entryId, uint32 rank)
  
      if (rank > 0 && freeChoiceGroup)
          for (auto const& other : AscensionCompatData::CoATalentEntries)
@@ -3152,7 +3152,7 @@ index a6b2599d0..646633da4 100644
                  AscensionClassService::GetSelectableFreeGroup(other.EntryId) == freeChoiceGroup)
                  for (uint32 spellId : other.SpellIds)
                      if (spellId && player->HasSpell(spellId))
-@@ -12066,6 +12573,16 @@ public:
+@@ -12134,6 +12641,16 @@ public:
    }
  };
  
@@ -3169,7 +3169,7 @@ index a6b2599d0..646633da4 100644
  void AppendConfiguredClientConfigs(AscensionClientConfig& config) {
    AppendAscensionClientConfigList(ascensionCompatConfig.GetConfigValue<std::string>(
                                        AscensionCompatConfig::CLIENT_BOOLEAN_CONFIGS),
-@@ -12075,6 +12592,290 @@ void AppendConfiguredClientConfigs(AscensionClientConfig& config) {
+@@ -12143,6 +12660,290 @@ void AppendConfiguredClientConfigs(AscensionClientConfig& config) {
                                    config.Integers);
  }
  
@@ -3460,7 +3460,7 @@ index a6b2599d0..646633da4 100644
  void AddAscensionCompatScripts() {
    MountDisplayFallback::Owner.store(&CollectionMountDisplay, std::memory_order_relaxed);
    Ascension::ClientItemPatches::Instance().Register(ITEM_HEARTWOOD_KEY);
-@@ -12124,4 +12925,8 @@ void AddAscensionCompatScripts() {
+@@ -12193,4 +12994,8 @@ void AddAscensionCompatScripts() {
    new AscensionCompatWorldScript();
    new AscensionCompatAllCreatureScript();
    new AscensionCompatPetScript();
@@ -3470,7 +3470,7 @@ index a6b2599d0..646633da4 100644
 +  new AscensionVanillaBookPlayerScript();
  }
 diff --git a/src/server/coa/AscensionCultist.cpp b/src/server/coa/AscensionCultist.cpp
-index 2f9f35807..71aefdb69 100644
+index 69c6f9aa6..381d8a8ea 100644
 --- a/src/server/coa/AscensionCultist.cpp
 +++ b/src/server/coa/AscensionCultist.cpp
 @@ -1,6 +1,8 @@
@@ -3502,7 +3502,7 @@ index 2f9f35807..71aefdb69 100644
  uint32 Count(Unit const* unit, uint32 id)
  {
      Aura const* aura = unit ? unit->GetAura(id) : nullptr;
-@@ -200,7 +206,7 @@ void ExpireEmbodiment(Player* player, uint32 diff)
+@@ -202,7 +208,7 @@ void ExpireEmbodiment(Player* player, uint32 diff)
  }
  bool Resource(Player* player, uint32 id, int32 delta, bool force)
  {
@@ -3581,7 +3581,7 @@ index fa5f6de0a..163cf47de 100644
  };
  
 diff --git a/src/server/coa/AscensionGuardianAbilities.cpp b/src/server/coa/AscensionGuardianAbilities.cpp
-index 67148d0d1..244039113 100644
+index 91521386d..2cc442e27 100644
 --- a/src/server/coa/AscensionGuardianAbilities.cpp
 +++ b/src/server/coa/AscensionGuardianAbilities.cpp
 @@ -2,6 +2,7 @@
@@ -3602,7 +3602,7 @@ index 67148d0d1..244039113 100644
  
      void Before()
 diff --git a/src/server/coa/AscensionGuardianCompletion.cpp b/src/server/coa/AscensionGuardianCompletion.cpp
-index 92c737006..011e89c7d 100644
+index 673f83f96..bb4a76ead 100644
 --- a/src/server/coa/AscensionGuardianCompletion.cpp
 +++ b/src/server/coa/AscensionGuardianCompletion.cpp
 @@ -2,6 +2,7 @@
@@ -3819,7 +3819,7 @@ index 58a80412d..5dac33e4f 100644
  
          if (SpellInfo const* missiles = HighestKnownArcaneMissiles(player))
 diff --git a/src/server/coa/AscensionNecromancer.cpp b/src/server/coa/AscensionNecromancer.cpp
-index cc6577c56..47d67c648 100644
+index 85d7be1a8..7bc82b72b 100644
 --- a/src/server/coa/AscensionNecromancer.cpp
 +++ b/src/server/coa/AscensionNecromancer.cpp
 @@ -1,6 +1,7 @@
@@ -3840,7 +3840,7 @@ index cc6577c56..47d67c648 100644
  NecromancerState& State(Player* player)
  {
 diff --git a/src/server/coa/AscensionNecromancerSummons.cpp b/src/server/coa/AscensionNecromancerSummons.cpp
-index cfac9b338..56951fb7a 100644
+index b28916ca3..3dba4e5aa 100644
 --- a/src/server/coa/AscensionNecromancerSummons.cpp
 +++ b/src/server/coa/AscensionNecromancerSummons.cpp
 @@ -2,6 +2,7 @@
@@ -3851,7 +3851,7 @@ index cfac9b338..56951fb7a 100644
  #include "Creature.h"
  #include "DBCStores.h"
  #include "MotionMaster.h"
-@@ -512,7 +513,7 @@ class npc_ascension_necromancer : public ScriptedAI
+@@ -502,7 +503,7 @@ class npc_ascension_necromancer : public ScriptedAI
      void IsSummonedBy(WorldObject* summoner) override
      {
          Player* player = summoner ? summoner->ToPlayer() : nullptr;
@@ -5225,7 +5225,7 @@ index 6bbace0b0..258bcc774 100644
      }
  
 diff --git a/src/server/coa/AscensionPyromancer.cpp b/src/server/coa/AscensionPyromancer.cpp
-index 8beec691a..f82a18405 100644
+index f34232e12..06bf91282 100644
 --- a/src/server/coa/AscensionPyromancer.cpp
 +++ b/src/server/coa/AscensionPyromancer.cpp
 @@ -1,6 +1,7 @@
@@ -5254,7 +5254,7 @@ index 8beec691a..f82a18405 100644
          return false;
      int32 before = Count(player, id);
      int64 total = std::max<int64>(0, int64(before) + delta);
-@@ -399,7 +400,9 @@ void Refresh(Player* player)
+@@ -403,7 +404,9 @@ void Refresh(Player* player)
          player->learnSpell(802117, true);
      if (!player->HasAura(92128))
          player->removeSpell(802117, SPEC_MASK_ALL, true);
@@ -5295,16 +5295,16 @@ index 126e68328..b661f6334 100644
      }
      void Register() override
 diff --git a/src/server/coa/AscensionRangerArchery.cpp b/src/server/coa/AscensionRangerArchery.cpp
-index b2fab82a4..3e1b3a90f 100644
+index ef3ee4600..dfef6f4b2 100644
 --- a/src/server/coa/AscensionRangerArchery.cpp
 +++ b/src/server/coa/AscensionRangerArchery.cpp
 @@ -1,4 +1,5 @@
  /* Copyright (C) 2016+ AzerothCore, GNU AGPL v3. */
 +#include "AscensionSpecialization.h"
+ #include "AscensionClientSpellPatches.h"
+ #include "DBCStores.h"
  #include "Log.h"
- #include "Player.h"
- #include "ScriptMgr.h"
-@@ -192,7 +193,7 @@ public:
+@@ -244,7 +245,7 @@ public:
      {
          Player* player = spell->GetCaster()->ToPlayer();
          SpellInfo const* info = spell->GetSpellInfo();
@@ -5313,7 +5313,7 @@ index b2fab82a4..3e1b3a90f 100644
              !IsRangerSpell(info))
              return;
  
-@@ -242,7 +243,7 @@ class aura_ascension_ranger_hawkeye : public AuraScript
+@@ -300,7 +301,7 @@ class aura_ascension_ranger_hawkeye : public AuraScript
      bool IsMarkedEnemy(Unit* target)
      {
          Unit* ranger = GetUnitOwner();
@@ -6574,7 +6574,7 @@ index 29daa288e..b8d7d5f36 100644
      }
  };
 diff --git a/src/server/coa/AscensionRunemasterScaling.cpp b/src/server/coa/AscensionRunemasterScaling.cpp
-index 777c58f25..2b8d9ff06 100644
+index ee373dddb..51ef58584 100644
 --- a/src/server/coa/AscensionRunemasterScaling.cpp
 +++ b/src/server/coa/AscensionRunemasterScaling.cpp
 @@ -1,6 +1,7 @@
@@ -6585,7 +6585,7 @@ index 777c58f25..2b8d9ff06 100644
  #include "Player.h"
  #include "ScriptMgr.h"
  #include "Spell.h"
-@@ -48,7 +49,7 @@ class spell_ascension_runemaster_brand_weapons : public SpellScript
+@@ -54,7 +55,7 @@ class spell_ascension_runemaster_brand_weapons : public SpellScript
  
      bool Load() override
      {
@@ -7014,7 +7014,7 @@ index b51f4459e..1b1826878 100644
  }
  
 diff --git a/src/server/coa/AscensionStormbringerLightning.cpp b/src/server/coa/AscensionStormbringerLightning.cpp
-index 7b6a19a44..537fc48e6 100644
+index 1e93d0707..663e4fb73 100644
 --- a/src/server/coa/AscensionStormbringerLightning.cpp
 +++ b/src/server/coa/AscensionStormbringerLightning.cpp
 @@ -1,4 +1,5 @@
@@ -7023,7 +7023,7 @@ index 7b6a19a44..537fc48e6 100644
  #include "Player.h"
  #include "Random.h"
  #include "ScriptMgr.h"
-@@ -39,7 +40,7 @@ public:
+@@ -40,7 +41,7 @@ public:
      {
          Player* owner = spell->GetCaster()->ToPlayer();
          SpellInfo const* info = spell->GetSpellInfo();
@@ -7163,7 +7163,7 @@ index 54f5d4ca2..0069445de 100644
              value += 0.7f * float(std::max(0,
                  const_cast<Unit*>(caster)->SpellBaseDamageBonusDone(SPELL_SCHOOL_MASK_NATURE)));
 diff --git a/src/server/coa/AscensionStormbringerTalents.cpp b/src/server/coa/AscensionStormbringerTalents.cpp
-index 756e838d5..ffed5db21 100644
+index 5eb30c2dd..82d616269 100644
 --- a/src/server/coa/AscensionStormbringerTalents.cpp
 +++ b/src/server/coa/AscensionStormbringerTalents.cpp
 @@ -1,5 +1,6 @@
@@ -7173,7 +7173,7 @@ index 756e838d5..ffed5db21 100644
  #include "CellImpl.h"
  #include "GridNotifiers.h"
  #include "GridNotifiersImpl.h"
-@@ -229,11 +230,11 @@ public:
+@@ -230,11 +231,11 @@ public:
      void OnSpellCast(Spell* spell, Unit* caster, SpellInfo const* info, bool) override
      {
          Player* player = caster ? caster->ToPlayer() : nullptr;
@@ -7187,7 +7187,7 @@ index 756e838d5..ffed5db21 100644
              !spell->IsTriggered())
              player->CastSpell(player, SPELL_RIDE_THE_LIGHTNING_LEAP, true);
  
-@@ -247,7 +248,7 @@ public:
+@@ -254,7 +255,7 @@ public:
      {
          Player* player = spell->GetCaster()->ToPlayer();
          SpellInfo const* info = spell->GetSpellInfo();
@@ -7196,7 +7196,7 @@ index 756e838d5..ffed5db21 100644
              !target || target == player || player->IsFriendlyTo(target) || miss != SPELL_MISS_NONE)
              return;
  
-@@ -329,7 +330,8 @@ public:
+@@ -336,7 +337,8 @@ public:
      {
          Unit* caster = spell->GetCaster();
          SpellInfo const* info = spell->GetSpellInfo();
@@ -7206,7 +7206,7 @@ index 756e838d5..ffed5db21 100644
              info->Id != SPELL_STORMBREAKER || info->SpellFamilyName != 22 ||
              info->Effects[effect].MiscValue != DISPEL_MAGIC ||
              !caster->HasAura(SPELL_PULSE_CONVERSION, caster->GetGUID()))
-@@ -404,7 +406,7 @@ class spell_ascension_stormbringer_cooldown_reduction : public SpellScript
+@@ -411,7 +413,7 @@ class spell_ascension_stormbringer_cooldown_reduction : public SpellScript
  
      bool Load() override
      {
@@ -7215,7 +7215,7 @@ index 756e838d5..ffed5db21 100644
      }
  
      void Reduce(SpellEffIndex index)
-@@ -531,7 +533,8 @@ class aura_ascension_dark_skies : public AuraScript
+@@ -538,7 +540,8 @@ class aura_ascension_dark_skies : public AuraScript
      {
          Unit* player = GetTarget();
          Unit* victim = event.GetActionTarget();
@@ -7225,7 +7225,7 @@ index 756e838d5..ffed5db21 100644
              GetCaster() == player && event.GetActor() == player && victim && victim != player &&
              !player->IsFriendlyTo(victim) && event.GetDamageInfo() && event.GetDamageInfo()->GetDamage();
      }
-@@ -573,7 +576,8 @@ class aura_ascension_thorims_gift : public AuraScript
+@@ -580,7 +583,8 @@ class aura_ascension_thorims_gift : public AuraScript
  
      bool Load() override
      {
@@ -7359,7 +7359,7 @@ index 114dc6eae..2b279951e 100644
  
      void Summon(SpellEffIndex index)
 diff --git a/src/server/coa/AscensionSunCleric.cpp b/src/server/coa/AscensionSunCleric.cpp
-index dc7d77e52..b5056bda8 100644
+index 935dc2625..997e0fa76 100644
 --- a/src/server/coa/AscensionSunCleric.cpp
 +++ b/src/server/coa/AscensionSunCleric.cpp
 @@ -1,6 +1,8 @@
@@ -7371,7 +7371,7 @@ index dc7d77e52..b5056bda8 100644
  #include "CellImpl.h"
  #include "GameTime.h"
  #include "GridNotifiers.h"
-@@ -36,7 +38,7 @@ Player* Owner(Unit const* unit)
+@@ -38,7 +40,7 @@ Player* Owner(Unit const* unit)
      Player* player = const_cast<Unit*>(unit)->ToPlayer();
      if (!player && unit->GetOwner())
          player = unit->GetOwner()->ToPlayer();
@@ -7380,7 +7380,7 @@ index dc7d77e52..b5056bda8 100644
  }
  SunClericState& State(Player* player)
  {
-@@ -247,7 +249,7 @@ void StackWithoutRefresh(Player* player, uint32 id)
+@@ -274,7 +276,7 @@ void StackWithoutRefresh(Player* player, uint32 id)
  }
  bool Resource(Player* player, uint32 id, int32 delta)
  {
@@ -7459,7 +7459,7 @@ index 8fcbb34ca..a6cd8f938 100644
  
          SpellInfo const* castInfo = eventInfo.GetSpellInfo();
 diff --git a/src/server/coa/AscensionTinker.cpp b/src/server/coa/AscensionTinker.cpp
-index 4e59e9913..e05a9fd26 100644
+index ee1eeee62..af87f9341 100644
 --- a/src/server/coa/AscensionTinker.cpp
 +++ b/src/server/coa/AscensionTinker.cpp
 @@ -1,6 +1,8 @@
@@ -8056,7 +8056,7 @@ index cf8ec0221..ff65309d9 100644
  DoctorState& State(Player* player)
  {
 diff --git a/src/server/coa/AscensionWitchDoctorSummons.cpp b/src/server/coa/AscensionWitchDoctorSummons.cpp
-index 9a67efc73..18fed1672 100644
+index fe28e1b3b..028b1aaee 100644
 --- a/src/server/coa/AscensionWitchDoctorSummons.cpp
 +++ b/src/server/coa/AscensionWitchDoctorSummons.cpp
 @@ -1,5 +1,6 @@
@@ -8456,7 +8456,7 @@ index b31b67140..8e35a8265 100644
      /// The trainer that serves this player at this unit: its own, or the class trainer the realm puts in its place,
      /// except that a rank-training Hero is taught the next rank of each ability it knows at any class trainer or
 diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
-index 2feac07a1..31b122963 100644
+index 9bfc59209..ab82594c8 100644
 --- a/src/server/game/Entities/Player/Player.cpp
 +++ b/src/server/game/Entities/Player/Player.cpp
 @@ -3531,7 +3531,13 @@ bool Player::_addSpell(uint32 spellId, uint8 addSpecMask, bool temporary, bool l
@@ -8483,7 +8483,7 @@ index 2feac07a1..31b122963 100644
          spellInfo->SpellFamilyName == 26 && spell->GetSpellInfo()->Id == spellId && !temporaryPet)
      {
          using namespace AscensionBloodmage;
-@@ -13370,6 +13377,23 @@ float Player::GetReputationPriceDiscount(FactionTemplateEntry const* factionTemp
+@@ -13380,6 +13387,23 @@ float Player::GetReputationPriceDiscount(FactionTemplateEntry const* factionTemp
      return discount;
  }
  
@@ -8507,7 +8507,7 @@ index 2feac07a1..31b122963 100644
  bool Player::IsSpellFitByClassAndRace(uint32 spell_id) const
  {
      uint32 racemask  = getRaceMask();
-@@ -13386,11 +13410,13 @@ bool Player::IsSpellFitByClassAndRace(uint32 spell_id) const
+@@ -13396,11 +13420,13 @@ bool Player::IsSpellFitByClassAndRace(uint32 spell_id) const
              continue;
  
          // skip wrong class skills
@@ -8524,7 +8524,7 @@ index 2feac07a1..31b122963 100644
              continue;
  
          return true;
-@@ -14957,6 +14983,8 @@ void Player::_LoadSkills(PreparedQueryResult result)
+@@ -14967,6 +14993,8 @@ void Player::_LoadSkills(PreparedQueryResult result)
              uint16 max      = fields[2].Get<uint16>();
  
              SkillRaceClassInfoEntry const* rcEntry = GetSkillRaceClassInfo(skill, getRace(), getClass());
@@ -8560,7 +8560,7 @@ index a86c6c250..b70d1b673 100644
          if (msg)
              SendCanTakeQuestResponse(INVALIDREASON_QUEST_FAILED_WRONG_RACE);
 diff --git a/src/server/game/Entities/Unit/Unit.cpp b/src/server/game/Entities/Unit/Unit.cpp
-index 1dc55cd2c..e9a0594ff 100644
+index 347974cb2..0dfcc5153 100644
 --- a/src/server/game/Entities/Unit/Unit.cpp
 +++ b/src/server/game/Entities/Unit/Unit.cpp
 @@ -3784,6 +3784,11 @@ SpellMissInfo Unit::MeleeSpellHitResult(Unit* victim, SpellInfo const* spellInfo
@@ -8584,7 +8584,7 @@ index 1dc55cd2c..e9a0594ff 100644
  
      int32 rand = irand(1, 10000); // Needs to be  1 to 10000 to avoid the 1/10000 chance to miss on 100% hit rating
  
-@@ -11881,10 +11888,11 @@ void Unit::Mount(uint32 mount, uint32 VehicleId, uint32 creatureEntry)
+@@ -11883,10 +11890,11 @@ void Unit::Mount(uint32 mount, uint32 VehicleId, uint32 creatureEntry)
          sScriptMgr->AnticheatSetUnderACKmount(player);
  
          // mount as a vehicle
@@ -8597,7 +8597,7 @@ index 1dc55cd2c..e9a0594ff 100644
                  GetVehicleKit()->Reset();
  
                  // Send others that we now have a vehicle
-@@ -11954,8 +11962,8 @@ void Unit::Dismount()
+@@ -11956,8 +11964,8 @@ void Unit::Dismount()
      data << GetPackGUID();
      SendMessageToSet(&data, true);
  
@@ -8608,7 +8608,7 @@ index 1dc55cd2c..e9a0594ff 100644
      {
          // Send other players that we are no longer a vehicle
          data.Initialize(SMSG_PLAYER_VEHICLE_DATA, 8 + 4);
-@@ -14733,6 +14741,8 @@ void Unit::RestoreDisplayId()
+@@ -14737,6 +14745,8 @@ void Unit::RestoreDisplayId()
          // iterate over already applied transform auras - from newest to oldest
          for (auto i = transforms.rbegin(); i != transforms.rend(); ++i)
          {
@@ -8617,7 +8617,7 @@ index 1dc55cd2c..e9a0594ff 100644
              if (AuraApplication const* aurApp = (*i)->GetBase()->GetApplicationOfTarget(GetGUID()))
              {
                  if (!handledAura)
-@@ -17146,6 +17156,9 @@ uint32 Unit::GetCombatRatingDamageReduction(CombatRating cr, float rate, float c
+@@ -17150,6 +17160,9 @@ uint32 Unit::GetCombatRatingDamageReduction(CombatRating cr, float rate, float c
  
  uint32 Unit::GetModelForForm(ShapeshiftForm form, uint32 spellId)
  {
@@ -8627,7 +8627,7 @@ index 1dc55cd2c..e9a0594ff 100644
      // Hardcoded cases
      switch (spellId)
      {
-@@ -17234,6 +17247,9 @@ void Unit::JumpTo(WorldObject* obj, float speedZ)
+@@ -17238,6 +17251,9 @@ void Unit::JumpTo(WorldObject* obj, float speedZ)
  
  bool Unit::HandleSpellClick(Unit* clicker, int8 seatId)
  {
@@ -8659,7 +8659,7 @@ index c5153ca80..cd066b2c1 100644
      bool _accessoriesInstalled;
  };
 diff --git a/src/server/game/Groups/Group.cpp b/src/server/game/Groups/Group.cpp
-index 3eb6e4c12..bd32d4a0f 100644
+index 07c80f330..dbcb03f42 100644
 --- a/src/server/game/Groups/Group.cpp
 +++ b/src/server/game/Groups/Group.cpp
 @@ -16,6 +16,7 @@
@@ -8670,7 +8670,7 @@ index 3eb6e4c12..bd32d4a0f 100644
  #include "AreaDefines.h"
  #include "Battleground.h"
  #include "BattlegroundMgr.h"
-@@ -434,14 +435,17 @@ bool Group::AddMember(Player* player, uint8 roles /* = 0 */)
+@@ -435,14 +436,17 @@ bool Group::AddMember(Player* player, uint8 roles /* = 0 */)
      if (!player)
          return false;
  
@@ -8691,7 +8691,7 @@ index 3eb6e4c12..bd32d4a0f 100644
              {
                  groupFound = true;
                  break;
-@@ -1918,12 +1922,22 @@ void Group::SendUpdateToPlayer(ObjectGuid playerGUID, MemberSlot* slot)
+@@ -1931,12 +1935,22 @@ void Group::SendUpdateToPlayer(ObjectGuid playerGUID, MemberSlot* slot)
          data << uint32(sLFGMgr->GetDungeon(m_guid));
      }
  
@@ -8716,7 +8716,7 @@ index 3eb6e4c12..bd32d4a0f 100644
              continue;
  
          Player* member = ObjectAccessor::FindConnectedPlayer(citr->guid);
-@@ -2044,6 +2058,14 @@ void Group::ChangeMembersGroup(ObjectGuid guid, uint8 group)
+@@ -2057,6 +2071,14 @@ void Group::ChangeMembersGroup(ObjectGuid guid, uint8 group)
      if (slot == m_memberSlots.end())
          return;
  
@@ -8731,7 +8731,7 @@ index 3eb6e4c12..bd32d4a0f 100644
      // Abort if the player is already in the target sub group
      uint8 prevSubGroup = GetMemberGroup(guid);
      if (prevSubGroup == group)
-@@ -2078,6 +2100,15 @@ void Group::ChangeMembersGroup(ObjectGuid guid, uint8 group)
+@@ -2091,6 +2113,15 @@ void Group::ChangeMembersGroup(ObjectGuid guid, uint8 group)
              player->GetOriginalGroupRef().setSubGroup(group);
      }
  
@@ -8747,7 +8747,7 @@ index 3eb6e4c12..bd32d4a0f 100644
      // Broadcast the changes to the group
      SendUpdate();
  }
-@@ -2494,9 +2525,51 @@ void Group::SetLfgRoles(ObjectGuid guid, const uint8 roles)
+@@ -2507,9 +2538,51 @@ void Group::SetLfgRoles(ObjectGuid guid, const uint8 roles)
      SendUpdate();
  }
  
@@ -8800,7 +8800,7 @@ index 3eb6e4c12..bd32d4a0f 100644
  }
  
  bool Group::isLFGGroup(bool restricted /*= false*/) const
-@@ -2615,7 +2688,16 @@ bool Group::SameSubGroup(ObjectGuid guid1, MemberSlot const* slot2) const
+@@ -2628,7 +2701,16 @@ bool Group::SameSubGroup(ObjectGuid guid1, MemberSlot const* slot2) const
  
  bool Group::HasFreeSlotSubGroup(uint8 subgroup) const
  {
@@ -8913,10 +8913,10 @@ index b8447712c..e6cf89934 100644
          LOG_DEBUG("maps", "MAP: Instance '{}' of map '{}' cannot have more than '{}' players. Player '{}' rejected", GetInstanceId(), GetMapName(), maxPlayers, player->GetName());
          player->SendTransferAborted(GetId(), TRANSFER_ABORT_MAX_PLAYERS);
 diff --git a/src/server/game/Scripting/ScriptDefines/PlayerScript.cpp b/src/server/game/Scripting/ScriptDefines/PlayerScript.cpp
-index 1fde40198..10dc0316d 100644
+index bd0a1db2d..bc6fe5717 100644
 --- a/src/server/game/Scripting/ScriptDefines/PlayerScript.cpp
 +++ b/src/server/game/Scripting/ScriptDefines/PlayerScript.cpp
-@@ -1224,6 +1224,44 @@ std::optional<uint32> ScriptMgr::OnPlayerGetGameModeMask(Player const* player)
+@@ -1230,6 +1230,44 @@ std::optional<uint32> ScriptMgr::OnPlayerGetGameModeMask(Player const* player)
      return std::nullopt;
  }
  
@@ -9009,7 +9009,7 @@ index b6bd997c3..5b175bdb0 100644
  
  #endif
 diff --git a/src/server/game/Scripting/ScriptDefines/UnitScript.cpp b/src/server/game/Scripting/ScriptDefines/UnitScript.cpp
-index c96b06fc5..89d8775b1 100644
+index 1a120a426..29037e374 100644
 --- a/src/server/game/Scripting/ScriptDefines/UnitScript.cpp
 +++ b/src/server/game/Scripting/ScriptDefines/UnitScript.cpp
 @@ -115,6 +115,11 @@ void ScriptMgr::OnBeforeRollMeleeOutcomeAgainst(Unit const* attacker, Unit const
@@ -9025,7 +9025,7 @@ index c96b06fc5..89d8775b1 100644
  {
      CALL_ENABLED_HOOKS(UnitScript, UNITHOOK_ON_AURA_APPLY, script->OnAuraApply(unit, aura));
 diff --git a/src/server/game/Scripting/ScriptDefines/UnitScript.h b/src/server/game/Scripting/ScriptDefines/UnitScript.h
-index 4f7d301f0..1eb9c9956 100644
+index f00265642..ae3ea2774 100644
 --- a/src/server/game/Scripting/ScriptDefines/UnitScript.h
 +++ b/src/server/game/Scripting/ScriptDefines/UnitScript.h
 @@ -58,6 +58,7 @@ enum UnitHook
@@ -9047,7 +9047,7 @@ index 4f7d301f0..1eb9c9956 100644
  
      virtual void OnAuraRemove(Unit* /*unit*/, AuraApplication* /*aurApp*/, AuraRemoveMode /*mode*/) { }
 diff --git a/src/server/game/Scripting/ScriptMgr.h b/src/server/game/Scripting/ScriptMgr.h
-index e767dc14e..2fc5f5d23 100644
+index ab5dc7373..702ff9369 100644
 --- a/src/server/game/Scripting/ScriptMgr.h
 +++ b/src/server/game/Scripting/ScriptMgr.h
 @@ -85,6 +85,7 @@ class SpellScriptLoader;
@@ -9079,7 +9079,7 @@ index e767dc14e..2fc5f5d23 100644
      void OnAuraRemove(Unit* unit, AuraApplication* aurApp, AuraRemoveMode mode);
      void OnSendAuraUpdate(Unit* target, Player* receiver, AuraApplication const* application, bool remove);
 diff --git a/src/server/game/Spells/Auras/SpellAuraEffects.cpp b/src/server/game/Spells/Auras/SpellAuraEffects.cpp
-index 263da6fc2..1d816481e 100644
+index b79448971..42d120697 100644
 --- a/src/server/game/Spells/Auras/SpellAuraEffects.cpp
 +++ b/src/server/game/Spells/Auras/SpellAuraEffects.cpp
 @@ -2492,6 +2492,9 @@ void AuraEffect::HandleAuraTransform(AuraApplication const* aurApp, uint8 mode,
@@ -9093,7 +9093,7 @@ index 263da6fc2..1d816481e 100644
          if (GetSpellInfo()->HasAttribute(SPELL_ATTR0_NO_IMMUNITIES) || !target->GetModelForForm(target->GetShapeshiftForm(), GetId()) || !GetSpellInfo()->IsPositive())
          {
 diff --git a/src/server/game/Spells/Spell.cpp b/src/server/game/Spells/Spell.cpp
-index ea145f259..411090ba7 100644
+index 3f37827f5..1c2862766 100644
 --- a/src/server/game/Spells/Spell.cpp
 +++ b/src/server/game/Spells/Spell.cpp
 @@ -3657,7 +3657,7 @@ SpellCastResult Spell::prepare(SpellCastTargets const* targets, AuraEffect const
@@ -9155,7 +9155,7 @@ index ea145f259..411090ba7 100644
          !m_caster->CanCastSpellWhileMoving(m_spellInfo))
      {
          // skip stuck spell to allow use it in falling case and apply spell limitations at movement
-@@ -8387,7 +8392,7 @@ bool Spell::IsIgnoringCooldowns() const
+@@ -8416,7 +8421,7 @@ bool Spell::IsIgnoringCooldowns() const
  bool Spell::IsAutoActionResetSpell() const
  {
      /// @todo changed SPELL_INTERRUPT_FLAG_AUTOATTACK -> SPELL_INTERRUPT_FLAG_INTERRUPT to fix compile - is this check correct at all?
